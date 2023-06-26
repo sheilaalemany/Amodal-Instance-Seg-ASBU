@@ -1,10 +1,8 @@
+** Note: Sheila has modified a few things in this repo + readme to address some compatibility and installation issues. 
 
 ## Paper
 
 Khoi Nguyen, Sinisa Todorovic "[A Weakly Supervised Amodal Segmenter with Boundary Uncertainty Estimation](https://arxiv.org/abs/2108.09897)", accepted to ICCV 2021
-
-Our code is mainly based on the code from the paper: Xiaohang Zhan, Xingang Pan, Bo Dai, Ziwei Liu, Dahua Lin, Chen Change Loy, "[Self-Supervised Scene De-occlusion](https://arxiv.org/abs/2004.02788)"
-
 
 ## Requirements
 
@@ -37,7 +35,6 @@ Our code is mainly based on the code from the paper: Xiaohang Zhan, Xingang Pan,
 
 4. Create symbolic link:
     ```
-    cd deocclusion
     mkdir data
     cd data
     ln -s /path/to/COCOA
@@ -66,6 +63,11 @@ Our code is mainly based on the code from the paper: Xiaohang Zhan, Xingang Pan,
     ```
 
 ## Train
+
+To train with the default run and the COCOA dataset. 
+```
+python -m torch.distributed.launch --nproc_per_node=1 --master_port=9918 python main.py --config experiments/COCOA/pcnet_m/config_train_std_no_rgb_gaussian.yaml --launcher pytorch --exp_path experiments/COCOA/pcnet_m_std_no_rgb_gaussian
+```
 
 ### train PCNet-M
 
@@ -103,7 +105,7 @@ Our code is mainly based on the code from the paper: Xiaohang Zhan, Xingang Pan,
 }
 ```
 
-## Acknowledgement
+## Original Acknowledgement
 
 1. We developed our approach based on the code from [https://github.com/XiaohangZhan/deocclusion/](https://github.com/XiaohangZhan/deocclusion/)
 
