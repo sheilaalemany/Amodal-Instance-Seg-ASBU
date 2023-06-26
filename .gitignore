@@ -124,3 +124,6 @@ lazy_push.sh
 released
 *.hide.*
 .DS_Store
+
+/COCOA/train2014
+/COCOA/val2014
