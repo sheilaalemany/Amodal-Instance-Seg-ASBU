@@ -5,7 +5,7 @@ import torch
 
 from .unet_parts import inconv, down, up, outconv
 
-from mmdet.ops.dcn.deform_conv import ModulatedDeformConvPack as Deform
+from mmdet.ops import ModulatedDeformConvPack as Deform
 
 class UNetD2(nn.Module):
     def __init__(self, in_channels=3, w=4, n_classes=2, use_deform=False):
