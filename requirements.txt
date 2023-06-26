@@ -1,66 +1,69 @@
-addict @ file:///home/conda/feedstock_root/build_artifacts/addict_1636818143388/work
+addict==2.4.0
 appdirs==1.4.4
 brotlipy==0.7.0
-certifi @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_5c4sjwommo/croot/certifi_1683875376620/work/certifi
-cffi @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_ab19r4bji3/croot/cffi_1670423206034/work
-chardet @ file:///Users/ktietz/demo/mc3/conda-bld/chardet_1628859434282/work
-charset-normalizer @ file:///tmp/build/80754af9/charset-normalizer_1630003229654/work
-contourpy @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_97c8ctlp86/croots/recipe/contourpy_1663827422071/work
-cryptography @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_4a_lrlt_rt/croot/cryptography_1686613068564/work
+certifi==2023.5.7
+cffi==1.15.1
+chardet==4.0.0
+charset-normalizer==2.0.4
+contourpy==1.0.5
+cryptography==39.0.1
 cvbase==0.5.5
-cycler @ file:///tmp/build/80754af9/cycler_1637851556182/work
-Cython @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_99rc0zwf1n/croot/cython_1686665664022/work
-filelock @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_20tv0lrp8x/croot/filelock_1672387134240/work
+cycler==0.11.0
+Cython==0.29.35
+filelock==3.9.0
 fonttools==4.25.0
-gmpy2 @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/croot-muov7gw1/gmpy2_1645462616268/work
-idna @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_771olrhiqw/croot/idna_1666125579282/work
+gmpy2==2.1.2
+idna==3.4
 imageio==2.9.0
-importlib-resources @ file:///tmp/build/80754af9/importlib_resources_1625135880749/work
+importlib-resources==5.2.0
 imutils==0.5.4
-Jinja2 @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_9fjgzv9ant/croot/jinja2_1666908141308/work
-kiwisolver @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_93o8te804v/croot/kiwisolver_1672387163224/work
-kornia @ file:///home/conda/feedstock_root/build_artifacts/kornia_1682048577708/work
-markdown-it-py @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_43l_4ajkho/croot/markdown-it-py_1684279912406/work
-MarkupSafe @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_12c133f5-0720-4727-9c18-599a3af825723lzwham3/croots/recipe/markupsafe_1654597866058/work
-matplotlib @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_05rfi32zzb/croot/matplotlib-suite_1679593473526/work
-mdurl @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_0a8xm6w4wv/croots/recipe/mdurl_1659716035810/work
-mmcv @ file:///Users/runner/miniforge3/conda-bld/mmcv-recipe_1684324600761/work
-mmdet @ file:///home/conda/feedstock_root/build_artifacts/mmdet_1684295703833/work
-mmengine @ file:///home/conda/feedstock_root/build_artifacts/mmengine_1685824016326/work
+Jinja2==3.1.2
+kiwisolver==1.4.4
+kornia==0.6.12
+markdown-it-py==2.2.0
+MarkupSafe==2.1.1
+matplotlib==3.7.1
+mdurl==0.1.0
+mmcv==2.0.0
+mmdet==3.0.0
+mmengine==0.7.4
 mpmath==1.2.1
 munkres==1.1.4
-networkx @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_e870v6zw3n/croot/networkx_1678964339016/work
-numpy @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_07nxtsrh3m/croot/numpy_and_numpy_base_1687466221183/work
+networkx==2.8.4
+numpy==1.25.0
 opencv-python==4.7.0.72
-packaging @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_e946luvhc3/croot/packaging_1678965323926/work
+packaging==23.0
 Pillow==6.1.0
-pooch @ file:///tmp/build/80754af9/pooch_1623324770023/work
+pip==23.1.2
+pooch==1.4.0
 protobuf==4.23.3
-pycocotools @ file:///Users/runner/miniforge3/conda-bld/pycocotools_1667626694252/work
-pycparser @ file:///tmp/build/80754af9/pycparser_1636541352034/work
-Pygments @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_29bs9f_dh9/croot/pygments_1684279974747/work
-pyOpenSSL @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_38h4axtq38/croot/pyopenssl_1677607699670/work
-pyparsing @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_3b_3vxnd07/croots/recipe/pyparsing_1661452540919/work
-PySocks @ file:///Users/ktietz/Code/oss/ci_pkgs/pysocks_1626781349491/work
-python-dateutil @ file:///tmp/build/80754af9/python-dateutil_1626374649649/work
+pycocotools==2.0.6
+pycparser==2.21
+Pygments==2.15.1
+pyOpenSSL==23.0.0
+pyparsing==3.0.9
+PySocks==1.7.1
+python-dateutil==2.8.2
 PyWavelets==1.4.1
-PyYAML @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_8dd_9u21zz/croot/pyyaml_1670514759576/work
-regex @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_c16d2a8a-126e-4d7e-8084-357d1f1d1103zj2vwnhn/croots/recipe/regex_1658257182710/work
-requests @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_37wt8ycste/croot/requests_1682607533309/work
-rich @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_f2payco56o/croot/rich_1684282180753/work
+PyYAML==6.0
+regex==2022.7.9
+requests==2.29.0
+rich==13.3.5
 scikit-image==0.19.3
 scipy==1.10.1
-shapely @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_99qb8m92wn/croot/shapely_1680636304338/work
-six @ file:///tmp/build/80754af9/six_1644875935023/work
-sympy @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_21kpmugwgm/croot/sympy_1668202392692/work
+setuptools==67.8.0
+shapely==2.0.1
+six==1.16.0
+sympy==1.11.1
 tensorboardX==2.6.1
-termcolor @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_38l403w1_s/croot/termcolor_1668084649802/work
-terminaltables @ file:///home/conda/feedstock_root/build_artifacts/terminaltables_1639069502917/work
+termcolor==2.1.0
+terminaltables==3.1.10
 tifffile==2023.4.12
-torch @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_6c0lzhxkfw/croot/pytorch_1686931859179/work
+torch==2.0.1
 torchvision==0.15.2
 tqdm==4.65.0
-typing_extensions @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_41_yntae63/croot/typing_extensions_1686601680082/work
-urllib3 @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_e9usuw__8i/croot/urllib3_1686166332689/work
-yapf @ file:///tmp/build/80754af9/yapf_1615749224965/work
-zipp @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_8cv5zqoqed/croot/zipp_1672387131277/work
+typing_extensions==4.6.3
+urllib3==1.26.16
+wheel==0.38.4
+yapf==0.31.0
+zipp==3.11.0
