@@ -1,68 +1,72 @@
 addict==2.4.0
-appdirs==1.4.4
-brotlipy==0.7.0
-certifi==2023.5.7
-cffi==1.15.1
-chardet==4.0.0
-charset-normalizer==2.0.4
-contourpy==1.0.5
-cryptography==39.0.1
-cvbase==0.5.5
+certifi @ file:///croot/certifi_1683875369620/work/certifi
+charset-normalizer @ file:///home/conda/feedstock_root/build_artifacts/charset-normalizer_1678108872112/work
+click==8.1.3
+cmake==3.26.4
+contourpy==1.1.0
 cycler==0.11.0
-Cython==0.29.35
-filelock==3.9.0
-fonttools==4.25.0
-gmpy2==2.1.2
+filelock==3.12.2
+fonttools==4.40.0
+fvcore @ file:///home/conda/feedstock_root/build_artifacts/fvcore_1671623667463/work
+gmpy2 @ file:///work/ci_py311/gmpy2_1676839849213/work
 idna==3.4
-imageio==2.9.0
-importlib-resources==5.2.0
-imutils==0.5.4
+importlib-metadata==6.7.0
+iopath @ file:///home/conda/feedstock_root/build_artifacts/iopath_1636568816351/work
 Jinja2==3.1.2
 kiwisolver==1.4.4
-kornia==0.6.12
-markdown-it-py==2.2.0
-MarkupSafe==2.1.1
-mdurl==0.1.0
+lit==16.0.6
+Markdown==3.4.3
+markdown-it-py==3.0.0
+MarkupSafe==2.1.3
+matplotlib==3.7.1
+mdurl==0.1.2
 mmcv==2.0.0
-mmdet==3.0.0
 mmengine==0.7.4
-mpmath==1.2.1
-munkres==1.1.4
-networkx==2.8.4
-numpy==1.25.0
+model-index==0.1.11
+mpmath==1.3.0
+networkx==3.1
+numpy @ file:///croot/numpy_and_numpy_base_1687466208449/work
+nvidia-cublas-cu11==11.10.3.66
+nvidia-cuda-cupti-cu11==11.7.101
+nvidia-cuda-nvrtc-cu11==11.7.99
+nvidia-cuda-runtime-cu11==11.7.99
+nvidia-cudnn-cu11==8.5.0.96
+nvidia-cufft-cu11==10.9.0.58
+nvidia-curand-cu11==10.2.10.91
+nvidia-cusolver-cu11==11.4.0.1
+nvidia-cusparse-cu11==11.7.4.91
+nvidia-nccl-cu11==2.14.3
+nvidia-nvtx-cu11==11.7.91
 opencv-python==4.7.0.72
-packaging==23.0
-Pillow==6.1.0
-pip==23.1.2
-pooch==1.4.0
-protobuf==4.23.3
-pycocotools==2.0.6
-pycparser==2.21
+openmim==0.3.7
+ordered-set==4.1.0
+packaging==23.1
+pandas==2.0.2
+Pillow==9.5.0
+platformdirs==3.8.0
+portalocker @ file:///croot/portalocker_1682958299664/work
 Pygments==2.15.1
-pyOpenSSL==23.0.0
-pyparsing==3.0.9
-PySocks==1.7.1
+pyparsing==3.1.0
 python-dateutil==2.8.2
-PyWavelets==1.4.1
-PyYAML==6.0
-regex==2022.7.9
-requests==2.29.0
-rich==13.3.5
-scikit-image==0.19.3
-scipy==1.10.1
-setuptools==67.8.0
-shapely==2.0.1
+pytorch-triton-rocm==2.0.2
+pytz==2023.3
+PyYAML @ file:///work/ci_py311/pyyaml_1676827445582/work
+requests==2.31.0
+rich==13.4.2
 six==1.16.0
-sympy==1.11.1
-tensorboardX==2.6.1
-termcolor==2.1.0
-terminaltables==3.1.10
-tifffile==2023.4.12
-torch==2.0.1
-torchvision==0.15.2
-tqdm==4.65.0
+sympy==1.12
+tabulate @ file:///work/ci_py311/tabulate_1676838830728/work
+termcolor @ file:///work/ci_py311/termcolor_1676838860478/work
+tomli==2.0.1
+torch==2.0.0+cu118
+torchaudio==2.0.1+cu118
+torchvision==0.15.1+cu118
+tqdm @ file:///croot/tqdm_1679561862951/work
+triton==2.0.0
 typing_extensions==4.6.3
-urllib3==1.26.16
-wheel==0.38.4
-yapf==0.31.0
-zipp==3.11.0
+tzdata==2023.3
+urllib3==2.0.3
+yacs @ file:///tmp/build/80754af9/yacs_1634047592950/work
+yapf==0.40.1
+zipp==3.15.0
+
