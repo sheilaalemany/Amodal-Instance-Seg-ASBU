@@ -44,7 +44,11 @@ def dist_init(launcher, backend='nccl', **kwargs):
         raise ValueError('Invalid launcher type: {}'.format(launcher))
 
 def _init_dist_pytorch(backend, **kwargs):
+    print(torch.cuda.nccl.version())
+    print(backend)
+    print(**kwargs)
     rank = int(os.environ['RANK'])
+    print('rank: ', rank)
     num_gpus = torch.cuda.device_count()
     torch.cuda.set_device(rank % num_gpus)
     dist.init_process_group(backend=backend, **kwargs)
