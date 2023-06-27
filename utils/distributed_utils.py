@@ -44,9 +44,9 @@ def dist_init(launcher, backend='nccl', **kwargs):
         raise ValueError('Invalid launcher type: {}'.format(launcher))
 
 def _init_dist_pytorch(backend, **kwargs):
-    # rank = int(os.environ['LOCAL RANK'])
+    rank = int(os.environ['RANK'])
     num_gpus = torch.cuda.device_count()
-    # torch.cuda.set_device(rank % num_gpus)
+    torch.cuda.set_device(rank % num_gpus)
     dist.init_process_group(backend=backend, **kwargs)
 
 def _init_dist_mpi(backend, **kwargs):
@@ -63,7 +63,7 @@ def _init_dist_slurm(backend, port=10086, **kwargs):
     os.environ['MASTER_PORT'] = str(port)
     os.environ['MASTER_ADDR'] = addr
     os.environ['WORLD_SIZE'] = str(ntasks)
-    os.environ['LOCAL RANK'] = str(proc_id)
+    os.environ['RANK'] = str(proc_id)
     dist.init_process_group(backend=backend)
 
 def gather_tensors(input_array):
