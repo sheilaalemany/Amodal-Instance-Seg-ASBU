@@ -66,7 +66,11 @@ Khoi Nguyen, Sinisa Todorovic "[A Weakly Supervised Amodal Segmenter with Bounda
 
 To train with the default run and the COCOA dataset. 
 ```
-python -m torch.distributed.launch --nproc_per_node=1 --master_port=9918 python main.py --config experiments/COCOA/pcnet_m/config_train_std_no_rgb_gaussian.yaml --launcher pytorch --exp_path experiments/COCOA/pcnet_m_std_no_rgb_gaussian
+python -m torch.distributed.launch --nproc_per_node=2 --master_port=9918 python main.py --config experiments/COCOA/pcnet_m/config_train_std_no_rgb_gaussian.yaml --launcher pytorch --exp_path experiments/COCOA/pcnet_m_std_no_rgb_gaussian
+```
+
+```
+python main.py --config experiments/COCOA/pcnet_m/config_train_std_no_rgb_gaussian.yaml --launcher pytorch --exp_path experiments/COCOA/pcnet_m_std_no_rgb_gaussian
 ```
 
 ### train PCNet-M
