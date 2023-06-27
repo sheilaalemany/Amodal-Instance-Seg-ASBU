@@ -23,7 +23,6 @@ def main(args):
     # dist init
     if mp.get_start_method(allow_none=True) != 'spawn':
         mp.set_start_method('spawn', force=True)
-    print('args.launcher: ', args.launcher)
     dist_init(args.launcher, backend='nccl')
 
     # train
