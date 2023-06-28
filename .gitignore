@@ -103,7 +103,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-data
+data/COCOA/train2014
+data/COCOA/val2014
 checkpoints*
 logs*
 events*
