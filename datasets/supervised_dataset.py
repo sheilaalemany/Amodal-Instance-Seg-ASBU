@@ -120,7 +120,7 @@ class SupCompDataset(Dataset):
             rgb = torch.zeros((3, self.sz, self.sz), dtype=torch.float32) # 3HW
         modal_tensor = torch.from_numpy(
             modal.astype(np.float32)).unsqueeze(0) # 1HW, float
-        target = torch.from_numpy(amodal.astype(np.int)) # HW, int
+        target = torch.from_numpy(amodal.astype(int)) # HW, int
         return rgb, modal_tensor, target
 
 

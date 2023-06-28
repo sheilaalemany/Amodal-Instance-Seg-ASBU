@@ -72,7 +72,7 @@ class COCOADataset(object):
 
     def get_gt_ordering(self, imgidx):
         num = len(self.annot_info[imgidx]['regions'])
-        gt_order_matrix = np.zeros((num, num), dtype=np.int)
+        gt_order_matrix = np.zeros((num, num), dtype=int)
         order_str = self.annot_info[imgidx]['depth_constraint']
         if len(order_str) == 0:
             return gt_order_matrix

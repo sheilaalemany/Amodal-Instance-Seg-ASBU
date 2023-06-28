@@ -201,9 +201,9 @@ class PartialCompDataset(Dataset):
             erased_modal.astype(np.float32)).unsqueeze(0) # 1HW
         
         if self.occluded_only:
-            target = torch.from_numpy(occluded.astype(np.int))
+            target = torch.from_numpy(occluded.astype(int))
         else:
-            target = torch.from_numpy(modal.astype(np.int)) # HW
+            target = torch.from_numpy(modal.astype(int)) # HW
 
         if self.boundary_label:
             target = torch.stack([target, gt_boundary.long()])

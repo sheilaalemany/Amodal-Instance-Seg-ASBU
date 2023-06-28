@@ -147,7 +147,7 @@ def infer_amodal_hull(inmodal, bboxes, order_matrix, order_grounded=True):
 
 def infer_order_hull(inmodal):
     num = inmodal.shape[0]
-    order_matrix = np.zeros((num, num), dtype=np.int)
+    order_matrix = np.zeros((num, num), dtype=int)
     occ_value_matrix = np.zeros((num, num), dtype=np.float32)
     for i in range(num):
         for j in range(i + 1, num):
@@ -163,7 +163,7 @@ def infer_order_hull(inmodal):
 
 def infer_order_area(inmodal, above='larger'):
     num = inmodal.shape[0]
-    order_matrix = np.zeros((num, num), dtype=np.int)
+    order_matrix = np.zeros((num, num), dtype=int)
     for i in range(num):
         for j in range(i + 1, num):
             if bordering(inmodal[i], inmodal[j]):
@@ -180,7 +180,7 @@ def infer_order_area(inmodal, above='larger'):
 
 def infer_order_yaxis(inmodal):
     num = inmodal.shape[0]
-    order_matrix = np.zeros((num, num), dtype=np.int)
+    order_matrix = np.zeros((num, num), dtype=int)
     for i in range(num):
         for j in range(i + 1, num):
             if bordering(inmodal[i], inmodal[j]):
@@ -196,7 +196,7 @@ def infer_order_yaxis(inmodal):
 
 def infer_order_sup(model, image, inmodal, bboxes, input_size=256, use_rgb=True):
     num = inmodal.shape[0]
-    order_matrix = np.zeros((num, num), dtype=np.int)
+    order_matrix = np.zeros((num, num), dtype=int)
     for i in range(num):
         for j in range(i + 1, num):
             if bordering(inmodal[i], inmodal[j]):
@@ -236,7 +236,7 @@ def infer_order(model, image, inmodal, category, bboxes, use_rgb=True, th=0.5, d
     '''
     deal_with_fullcover = False
     num = inmodal.shape[0]
-    order_matrix = np.zeros((num, num), dtype=np.int)
+    order_matrix = np.zeros((num, num), dtype=int)
     ind = []
     if deal_with_fullcover:
         fullcover_inds = []
@@ -359,7 +359,7 @@ def infer_gt_order(inmodal, amodal):
     #inmodal = inmodal.numpy()
     #amodal = amodal.numpy()
     num = inmodal.shape[0]
-    gt_order_matrix = np.zeros((num, num), dtype=np.int)
+    gt_order_matrix = np.zeros((num, num), dtype=int)
     for i in range(num):
         for j in range(i + 1, num):
             if not bordering(inmodal[i], inmodal[j]):
