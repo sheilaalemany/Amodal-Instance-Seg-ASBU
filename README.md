@@ -18,7 +18,7 @@ Khoi Nguyen, Sinisa Todorovic "[A Weakly Supervised Amodal Segmenter with Bounda
 
 1. Download COCO2014 train and val images from [here](http://cocodataset.org/#download) and unzip.
 
-2. Download COCOA annotations from [here](https://github.com/Wakeupbuddy/amodalAPI) and untar.
+2. Download COCOA annotations from [here](https://github.com/Wakeupbuddy/amodalAPI) and untar. (I have included it in the data folder already in this modified repo)
 
 3. Ensure the COCOA folder looks like:
 
@@ -35,7 +35,6 @@ Khoi Nguyen, Sinisa Todorovic "[A Weakly Supervised Amodal Segmenter with Bounda
 
 4. Create symbolic link:
     ```
-    mkdir data
     cd data
     ln -s /path/to/COCOA
     ```
