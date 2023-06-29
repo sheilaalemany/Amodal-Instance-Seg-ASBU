@@ -98,7 +98,7 @@ class Trainer(object):
             self.train_loader = DataLoader(train_dataset,
                                            batch_size=args.data['batch_size'],
                                            shuffle=False,
-                                           num_workers=args.data['workers'],
+                                           num_workers=0, # before it was args.data['workers'] and was getting a dataloader runtime error
                                            pin_memory=False,
                                            sampler=train_sampler)
 
@@ -108,7 +108,7 @@ class Trainer(object):
             val_dataset,
             batch_size=args.data['batch_size_val'],
             shuffle=False,
-            num_workers=args.data['workers'],
+            num_workers=0, # before it was args.data['workers'] and was getting a dataloader runtime error
             pin_memory=False,
             sampler=val_sampler)
 
