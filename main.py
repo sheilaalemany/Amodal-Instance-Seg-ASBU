@@ -12,6 +12,7 @@ from trainer import Trainer
 def main(args):
     with open(args.config) as f:
         config = yaml.load(f, Loader=yaml.FullLoader)
+    print('...finished open')
 
     for k, v in config.items():
         setattr(args, k, v)
@@ -19,12 +20,14 @@ def main(args):
     # exp path
     if not hasattr(args, 'exp_path'):
         args.exp_path = os.path.dirname(args.config)
+    print('...finished exporting path')
 
     # dist init
     if mp.get_start_method(allow_none=True) != 'spawn':
         mp.set_start_method('spawn', force=True)
     dist_init(args.launcher, backend='nccl')
-
+    
+    ('...starting the trainer')
     # train
     trainer = Trainer(args)
     trainer.run()
