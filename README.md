@@ -1,12 +1,8 @@
 ** Note: Sheila has modified a few things in this repo + readme to address some compatibility and installation issues. 
 
-## Paper
-
-Khoi Nguyen, Sinisa Todorovic "[A Weakly Supervised Amodal Segmenter with Boundary Uncertainty Estimation](https://arxiv.org/abs/2108.09897)", accepted to ICCV 2021
-
 ## Requirements
 
-* pytorch>=0.4.1
+* pytorch>=0.4.1 (Note: There will likely be a bunch of imports missing that you'll run into...)
 
     ```shell
     pip install -r requirements.txt
@@ -18,7 +14,7 @@ Khoi Nguyen, Sinisa Todorovic "[A Weakly Supervised Amodal Segmenter with Bounda
 
 1. Download COCO2014 train and val images from [here](http://cocodataset.org/#download) and unzip.
 
-2. Download COCOA annotations from [here](https://github.com/Wakeupbuddy/amodalAPI) and untar. (I have included it in the data folder already in this modified repo)
+2. Download COCOA annotations from [here](https://github.com/Wakeupbuddy/amodalAPI) and untar. (Note: I have included it in the data folder already in this modified repo)
 
 3. Ensure the COCOA folder looks like:
 
@@ -57,19 +53,17 @@ Khoi Nguyen, Sinisa Todorovic "[A Weakly Supervised Amodal Segmenter with Bounda
 
 4. Create symbolic link:
     ```
-    cd deocclusion/data
+    cd data
     ln -s /path/to/KINS
     ```
 
 ## Train
 
 To train with the default run and the COCOA dataset. 
-```
-torchrun --nproc-per-node 2 --master-port 9918 main.py --config experiments/COCOA/pcnet_m/config_train_std_no_rgb_gaussian.yaml --launcher pytorch --exp_path experiments/COCOA/pcnet_m_std_no_rgb_gaussian
-```
 
+Note: The following is what worked for Sheila and her team with the CUDA 11.8 configured and 4 GPUs. 
 ```
-python main.py --config experiments/COCOA/pcnet_m/config_train_std_no_rgb_gaussian.yaml --launcher pytorch --exp_path experiments/COCOA/pcnet_m_std_no_rgb_gaussian
+torchrun --nproc-per-node 4 --master-port 9918 main.py --config experiments/COCOA/pcnet_m/config_train_std_no_rgb_gaussian.yaml --launcher pytorch --exp_path experiments/COCOA/pcnet_m_std_no_rgb_gaussian
 ```
 
 ### train PCNet-M
@@ -95,7 +89,7 @@ python main.py --config experiments/COCOA/pcnet_m/config_train_std_no_rgb_gaussi
     ```
 
 
-## Bibtex
+## Bibtex for Original work
 
 ```
 @InProceedings{Nguyen_2021_ICCV,
