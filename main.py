@@ -23,8 +23,11 @@ def main(args):
     print('...finished exporting path')
 
     # dist init
+    ## when I am running it, it gets stuck here for some reason and does not ever reach trainer
     if mp.get_start_method(allow_none=True) != 'spawn':
+        print('...spawn the mp.set_start_method')
         mp.set_start_method('spawn', force=True)
+    print('...initializing launcher')
     dist_init(args.launcher, backend='nccl')
     
     ('...starting the trainer')
