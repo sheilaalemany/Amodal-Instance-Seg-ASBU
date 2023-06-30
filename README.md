@@ -87,7 +87,10 @@ torchrun --nproc-per-node 4 --master-port 9918 main.py --config experiments/COCO
     ```shell
     ./test_pcnet_m.sh
     ```
-
+or
+```
+torchrun --nproc-per-node 1 main.py --config experiments/COCOA/pcnet_m/config_train_std_no_rgb_gaussian.yaml --launcher pytorch --load-iter 30000 --validate --exp_path experiments/COCOA/pcnet_m_std_no_rgb_gaussian
+```
 
 ## Bibtex for Original work
 
