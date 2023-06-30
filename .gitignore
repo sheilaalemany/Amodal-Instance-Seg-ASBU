@@ -105,10 +105,10 @@ venv.bak/
 
 data/COCOA/train2014
 data/COCOA/val2014
-checkpoints*
-logs*
-events*
-images*
+#checkpoints*
+#logs*
+#events*
+#images*
 *.npy
 *.tar
 *.pth
@@ -126,5 +126,5 @@ released
 *.hide.*
 .DS_Store
 
-/COCOA/train2014
-/COCOA/val2014
+#/COCOA/train2014
+#/COCOA/val2014
