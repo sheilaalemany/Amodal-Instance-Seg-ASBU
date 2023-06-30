@@ -19,6 +19,8 @@ import matplotlib.pyplot as plt
 from collections import defaultdict
 from tqdm import tqdm
 
+torch.autograd.set_detect_anomaly(True)
+
 class Trainer(object):
 
     def __init__(self, args):
