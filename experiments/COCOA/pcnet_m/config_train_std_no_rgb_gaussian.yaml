@@ -1,7 +1,7 @@
 model:
     algo: PartialCompletionMask
-    total_iter: 56000
-    lr_steps: [32000, 48000]
+    total_iter: 30000
+    lr_steps: [10000, 20000]
     lr_mults: [0.1, 0.1]
     lr: 0.001
     weight_decay: 0.0001
