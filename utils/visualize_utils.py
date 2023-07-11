@@ -15,7 +15,7 @@ def visualize_tensor(tensors_dict, mean, div):
         if mt.size(1) == 1:
             mt = mt.repeat(1,3,1,1)
         mt = mt.float().detach().cpu() * 255
-        print('mask tensor shape: ', mt)
+        print('mask tensor shape: ', mt.shape)
         together.append(mt)
         
     # added by Sheila, we are trying to append the original images to the masks here
