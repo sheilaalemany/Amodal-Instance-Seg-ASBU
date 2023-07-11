@@ -9,6 +9,7 @@ def visualize_tensor(tensors_dict, mean, div):
         ct = unormalize(ct.detach().cpu(), mean, div)
         ct *= 255
         ct = torch.clamp(ct, 0, 255)
+        print('common tensor shape: ', ct.shape)
         together.append(ct)
 
     for mt in tensors_dict['mask_tensors']:
