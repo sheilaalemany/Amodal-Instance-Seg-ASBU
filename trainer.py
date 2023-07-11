@@ -260,8 +260,8 @@ class Trainer(object):
             
             print('tensor_dict: ', tensor_dict.keys())
             
-            inputs_maybe = self.model.set_input(*inputs)
-            print('inputs maybe? ', self.model.set_input(*inputs))
+            inputs_maybe = self.model.rgb # found that the set_inputs function has an rgb parameter
+            print('inputs maybe? ', inputs_maybe)
 
             for k in loss_dict.keys():
                 recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
