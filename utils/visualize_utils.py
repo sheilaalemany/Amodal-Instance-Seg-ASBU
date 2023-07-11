@@ -23,9 +23,10 @@ def visualize_tensor(tensors_dict, mean, div):
     if 'originals' in tensors_dict: 
         print('...we reached the point where we are appending the originals to together!')
         
-        ot = tensors_dict['originals'].detach().cpu()
+        # ot = tensors_dict['originals'].detach().cpu()
+        ot = tensors_dict['originals']
         # the shape of original images is such that it is 32 separate pics but I want one pic with the 32 lil guys
-        ot = torch.reshape(ot, (32, 3, 256, 256))
+        # ot = torch.reshape(ot, (32, 3, 256, 256))
         print('ot shape: ', ot.shape)
         together.append(ot)
         
