@@ -29,9 +29,9 @@ def visualize_tensor(tensors_dict, mean, div):
         
     if len(together) == 0:
         return None
-    together = torch.cat(together, dim=3)
+    together = torch.cat(together, dim=4) # changed from 3 to 4
     together = together.permute(1,0,2,3).contiguous()
-    together = together.view(together.size(0), -1, together.size(3))
+    together = together.view(together.size(0), -1, together.size(4)) # changed from 3 to 4
     return together
 
 def unormalize(tensor, mean, div):
