@@ -258,11 +258,7 @@ class Trainer(object):
             original_images = inputs[0] # needs to be converted to Tensor from the 'PartialCompDataset'?
             print('input length: ', len(inputs))
             print('input length of first item: ', len(inputs[0]))
-            
             print('input type of first item: ', type(inputs[0]))
-            print('input type of 2nd item: ', type(inputs[1]))
-            print('input type of 3rd item: ', type(inputs[2]))
-            print('input type of 4th item: ', type(inputs[3]))
             
             new_tensor_dict = {'originals': original_images}
             tensor_dict.update(new_tensor_dict)
