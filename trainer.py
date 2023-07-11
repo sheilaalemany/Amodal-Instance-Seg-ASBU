@@ -242,19 +242,16 @@ class Trainer(object):
         end = time.time()
         all_together = []
         for i, inputs in enumerate(self.val_loader):
-            if ('val_iter' in self.args.trainer and
-                    self.args.trainer['val_iter'] != -1 and
-                    i == self.args.trainer['val_iter']):
+            if ('val_iter' in self.args.trainer and self.args.trainer['val_iter'] != -1 and i == self.args.trainer['val_iter']):
                 break
 
             dtime_rec.update(time.time() - end)
 
             self.model.set_input(*inputs)
             
-            original_data = inputs
-            print('...original_data: ', len(original_data))
-            
+            # we know tensor_dict has the output of the input we are passing for each val_loader item
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
+            print('val_loader[i]: ', val_loader[i].shape)
 
             for k in loss_dict.keys():
                 recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
