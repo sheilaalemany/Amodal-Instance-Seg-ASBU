@@ -260,7 +260,7 @@ class Trainer(object):
             
             print('tensor_dict: ', tensor_dict)
             
-            print('model.inputs: ', model.inputs)
+            print('model.inputs: ', self.model.inputs)
 
             for k in loss_dict.keys():
                 recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
