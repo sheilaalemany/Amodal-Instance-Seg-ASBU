@@ -248,7 +248,7 @@ class Trainer(object):
 
             self.model.set_input(*inputs)
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
-            print('...tensor_dict: ', list(tensor_dict)[0].shape)
+            # print('...tensor_dict: ', list(tensor_dict)[0].shape)
 
             for k in loss_dict.keys():
                 recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
