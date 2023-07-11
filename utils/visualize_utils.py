@@ -25,9 +25,12 @@ def visualize_tensor(tensors_dict, mean, div):
         
         # ot = tensors_dict['originals'].detach().cpu()
         ot = tensors_dict['originals']
+        ot = torch.tensor(ot)
+        print('old ot shape: ', ot.shape)
+        ot = ot.reshape(ot, (32, 3, 256, 256))
         # the shape of original images is such that it is 32 separate pics but I want one pic with the 32 lil guys
         # ot = torch.reshape(ot, (32, 3, 256, 256))
-        print('ot shape: ', ot.shape)
+        print('new ot shape: ', ot.shape)
         together.append(ot)
         
         # for ot in tensors_dict['originals']:
