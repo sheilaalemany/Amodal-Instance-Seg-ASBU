@@ -18,7 +18,8 @@ def visualize_tensor(tensors_dict, mean, div):
         together.append(mt)
         
     # added by Sheila, we are trying to append the original images to the masks here
-    if 'original' in tensors_dict: 
+    if 'originals' in tensors_dict: 
+        print('...we reached the point where we are appending the originals to together!')
         for ot in tensors_dict['originals']:
             together.append(ot)
 
