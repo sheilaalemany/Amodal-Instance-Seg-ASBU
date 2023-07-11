@@ -257,11 +257,14 @@ class Trainer(object):
             
             # we know tensor_dict has the output of the input we are passing for each val_loader item
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
+            print('tensor_dict: ', tensor_dict.keys()) 
             
-            print('tensor_dict: ', tensor_dict.keys())
+            original_images = self.model.rgb # found that the set_inputs function has an rgb parameter
+            # print('inputs maybe? ', original_images) # these are potentially the images! 
             
-            inputs_maybe = self.model.rgb # found that the set_inputs function has an rgb parameter
-            print('inputs maybe? ', inputs_maybe)
+            new_tensor_dict = {'originals': original_images}
+            tensor_dict.update(new_tensor_dict)
+            print('new_tensor_dict: ', new_tensor_dict.keys()) 
 
             for k in loss_dict.keys():
                 recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
