@@ -231,6 +231,8 @@ class Trainer(object):
         
         print('...val_loader and val_loader.dataset:', len(self.val_loader), len(self.val_loader.dataset)) 
         
+        print('val_loader[0]: ', len(self.val_loader[0])) # number of columns?? 
+        
         btime_rec = utils.AverageMeter(0)
         dtime_rec = utils.AverageMeter(0)
         recorder = {}
@@ -251,7 +253,6 @@ class Trainer(object):
             
             # we know tensor_dict has the output of the input we are passing for each val_loader item
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
-            print('val_loader[i]: ', self.val_loader[i].shape)
 
             for k in loss_dict.keys():
                 recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
