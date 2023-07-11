@@ -21,9 +21,7 @@ def visualize_tensor(tensors_dict, mean, div):
     if 'originals' in tensors_dict: 
         print('...we reached the point where we are appending the originals to together!')
         for ot in tensors_dict['originals']:
-            ot = unormalize(ot.detach().cpu(), mean, div)
-            ot *= 255
-            ot = torch.clamp(ot, 0, 255)
+            ot = ot.detach().cpu()
             together.append(ot)
 
     part_tensor = tensors_dict.get('part_tensor', [])
