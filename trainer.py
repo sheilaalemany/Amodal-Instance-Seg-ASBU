@@ -231,7 +231,11 @@ class Trainer(object):
         
         print('...val_loader and val_loader.dataset:', len(self.val_loader), len(self.val_loader.dataset)) 
         
-        print('val_loader[0]: ', len(self.val_loader[0])) # number of columns?? 
+        batch = next(iter(self.val_loader))
+        print('val_loader image, label or just image?:', len(batch))
+        
+        batch_another = next(iter(self.val_loader.dataset))
+        print('val_loader.dataset image, label or just image?:', len(batch_another))
         
         btime_rec = utils.AverageMeter(0)
         dtime_rec = utils.AverageMeter(0)
