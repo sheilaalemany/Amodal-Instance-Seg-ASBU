@@ -22,10 +22,17 @@ def visualize_tensor(tensors_dict, mean, div):
     # added by Sheila, we are trying to append the original images to the masks here
     if 'originals' in tensors_dict: 
         print('...we reached the point where we are appending the originals to together!')
-        for ot in tensors_dict['originals']:
-            ot = ot.detach().cpu()
-            print('original sample shape: ', ot.shape)
-            together.append(ot)
+        
+        ot = tensors_dict['originals'].detach().cpu()
+        # the shape of original images is such that it is 32 separate pics but I want one pic with the 32 lil guys
+        ot = torch.reshape(ot, (32, 3, 256, 256))
+        print('ot shape: ', ot.shape)
+        together.append(ot)
+        
+        # for ot in tensors_dict['originals']:
+#             ot = ot.detach().cpu()
+#             print('original sample shape: ', ot.shape)
+#             together.append(ot)
 
     part_tensor = tensors_dict.get('part_tensor', [])
     for pt in part_tensor:
