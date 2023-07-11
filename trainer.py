@@ -229,8 +229,7 @@ class Trainer(object):
 
     def validate(self, phase):
         
-        print('...val_loader and val_loader.dataset in next line') 
-        print(len(self.val_loader), len(self.val_loader.dataset))
+        print('...val_loader and val_loader.dataset:', len(self.val_loader), len(self.val_loader.dataset)) 
         
         btime_rec = utils.AverageMeter(0)
         dtime_rec = utils.AverageMeter(0)
@@ -251,6 +250,10 @@ class Trainer(object):
             dtime_rec.update(time.time() - end)
 
             self.model.set_input(*inputs)
+            
+            original_data = *inputs
+            print('...original_data: ', original_data.shape)
+            
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
 
             for k in loss_dict.keys():
@@ -268,7 +271,8 @@ class Trainer(object):
                 if (i == disp_end - 1 and disp_end > disp_start):
                     all_together = torch.cat(all_together, dim=2)
                     
-                    print('...all_together length: ', all_together.shape) # so it seems all_together has a column of mask/boundary images, we want to get the column of original images 
+                    # print('...all_together length: ', all_together.shape) 
+                    # so it seems all_together has a column of mask/boundary images, we want to get the column of original images
                     
                     grid = vutils.make_grid(all_together,
                                             nrow=1,
@@ -276,7 +280,7 @@ class Trainer(object):
                                             range=(0, 255),
                                             scale_each=False)
                                             
-                    print('...grid shape: ', grid.shape)
+                    print('...grid shape: ', grid.shape) # grid shape is the same as all_together shape
                     
                     if self.tb_logger is not None:
                         self.tb_logger.add_image('Image_' + phase, grid,
