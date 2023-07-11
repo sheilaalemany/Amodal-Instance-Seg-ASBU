@@ -252,7 +252,7 @@ class Trainer(object):
             self.model.set_input(*inputs)
             
             original_data = inputs
-            print('...original_data: ', original_data.shape)
+            print('...original_data: ', len(original_data))
             
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
 
