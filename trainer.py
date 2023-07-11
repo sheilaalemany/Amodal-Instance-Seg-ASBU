@@ -228,6 +228,10 @@ class Trainer(object):
     #     self.model.switch_to('train')
 
     def validate(self, phase):
+        
+        print('...val_loader and val_loader.dataset in next line') 
+        print(len(self.val_loader), len(self.val_loader.dataset))
+        
         btime_rec = utils.AverageMeter(0)
         dtime_rec = utils.AverageMeter(0)
         recorder = {}
@@ -248,9 +252,6 @@ class Trainer(object):
 
             self.model.set_input(*inputs)
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
-            
-            print('...val_loader and val_loader.dataset in next line') 
-            print(len(self.val_loader), len(self.val_loader.dataset))
 
             for k in loss_dict.keys():
                 recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
@@ -274,6 +275,9 @@ class Trainer(object):
                                             normalize=True,
                                             range=(0, 255),
                                             scale_each=False)
+                                            
+                    print('...grid shape: ', grid.shape)
+                    
                     if self.tb_logger is not None:
                         self.tb_logger.add_image('Image_' + phase, grid,
                                                  self.curr_step)
