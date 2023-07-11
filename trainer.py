@@ -256,7 +256,10 @@ class Trainer(object):
             # added by Sheila
             # original_images = self.model.rgb
             original_images = inputs # needs to be converted to Tensor from the 'PartialCompDataset'?
-            # print('inputs maybe? ', original_images) # these are potentially the images!
+            print('input length: ', len(inputs))
+            print('input length of first item: ', len(inputs[0]))
+            print('input type of first item: ', type(inputs[0]))
+            
             new_tensor_dict = {'originals': original_images}
             tensor_dict.update(new_tensor_dict)
             print('updated tensor_dict: ', tensor_dict.keys()) 
