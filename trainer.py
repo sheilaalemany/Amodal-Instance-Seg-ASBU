@@ -251,7 +251,7 @@ class Trainer(object):
             
             # we know tensor_dict has the output of the input we are passing for each val_loader item
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
-            print('val_loader[i]: ', val_loader[i].shape)
+            print('val_loader[i]: ', self.val_loader[i].shape)
 
             for k in loss_dict.keys():
                 recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
