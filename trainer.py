@@ -248,7 +248,9 @@ class Trainer(object):
 
             self.model.set_input(*inputs)
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
-            # print('...tensor_dict: ', list(tensor_dict)[0].shape)
+            
+            print('...val_loader and val_loader.dataset in next line') 
+            print(len(self.val_loader), len(self.val_loader.dataset))
 
             for k in loss_dict.keys():
                 recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
@@ -264,7 +266,8 @@ class Trainer(object):
                  
                 if (i == disp_end - 1 and disp_end > disp_start):
                     all_together = torch.cat(all_together, dim=2)
-                    print('...all_together length: ', all_together.shape)
+                    
+                    print('...all_together length: ', all_together.shape) # so it seems all_together has a column of mask/boundary images, we want to get the column of original images 
                     
                     grid = vutils.make_grid(all_together,
                                             nrow=1,
