@@ -260,12 +260,9 @@ class Trainer(object):
                 disp_start = max(self.args.trainer['val_disp_start_iter'], 0)
                 disp_end = min(self.args.trainer['val_disp_end_iter'], len(self.val_loader))
                 if (i >= disp_start and i < disp_end):
-                    all_together.append(
-                        utils.visualize_tensor(tensor_dict,
-                        self.args.data.get('data_mean', [0,0,0]),
-                        self.args.data.get('data_std', [1,1,1])))
-                        
+                    all_together.append(utils.visualize_tensor(tensor_dict, self.args.data.get('data_mean', [0,0,0]), self.args.data.get('data_std', [1,1,1])))
                     print('...all_together length: ', len(all_together))
+                 
                 if (i == disp_end - 1 and disp_end > disp_start):
                     all_together = torch.cat(all_together, dim=2)
                     grid = vutils.make_grid(all_together,
