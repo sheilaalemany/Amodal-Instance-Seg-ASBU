@@ -257,6 +257,10 @@ class Trainer(object):
             
             # we know tensor_dict has the output of the input we are passing for each val_loader item
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
+            
+            print('tensor_dict: ', tensor_dict)
+            
+            print('model.inputs: ', model.inputs)
 
             for k in loss_dict.keys():
                 recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
@@ -268,8 +272,7 @@ class Trainer(object):
                 disp_start = max(self.args.trainer['val_disp_start_iter'], 0)
                 disp_end = min(self.args.trainer['val_disp_end_iter'], len(self.val_loader))
                 if (i >= disp_start and i < disp_end):
-                    # all_together.append(utils.visualize_tensor(tensor_dict, self.args.data.get('data_mean', [0,0,0]), self.args.data.get('data_std', [1,1,1])))
-                    all_together.append(utils.visualize_tensor(self.val_loader, tensor_dict, self.args.data.get('data_mean', [0,0,0]), self.args.data.get('data_std', [1,1,1])))
+                    all_together.append(utils.visualize_tensor(tensor_dict, self.args.data.get('data_mean', [0,0,0]), self.args.data.get('data_std', [1,1,1])))
                  
                 if (i == disp_end - 1 and disp_end > disp_start):
                     all_together = torch.cat(all_together, dim=2)
