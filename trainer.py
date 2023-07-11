@@ -258,9 +258,6 @@ class Trainer(object):
             # added by Sheila
             original_images = self.model.rgb # found that the set_inputs function has an rgb parameter
             # print('inputs maybe? ', original_images) # these are potentially the images!
-            # the shape of original images is such that it is 32 separate pics but I want one pic with the 32 lil guys
-            original_images = torch.reshape(original_images, (32, 3, 256, 256))
-            print('original_images shape: ', original_images.shape)
             
             # we know tensor_dict has the output of the input we are passing for each val_loader item
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
