@@ -255,13 +255,15 @@ class Trainer(object):
 
             self.model.set_input(*inputs)
             
+            # added by Sheila
+            original_images = self.model.rgb # found that the set_inputs function has an rgb parameter
+            # print('inputs maybe? ', original_images) # these are potentially the images!
+            
             # we know tensor_dict has the output of the input we are passing for each val_loader item
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
             print('tensor_dict: ', tensor_dict.keys()) 
             
-            original_images = self.model.rgb # found that the set_inputs function has an rgb parameter
-            # print('inputs maybe? ', original_images) # these are potentially the images! 
-            
+            # added by Sheila
             new_tensor_dict = {'originals': original_images}
             tensor_dict.update(new_tensor_dict)
             print('updated tensor_dict: ', tensor_dict.keys()) 

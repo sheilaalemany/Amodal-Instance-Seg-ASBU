@@ -16,6 +16,11 @@ def visualize_tensor(tensors_dict, mean, div):
             mt = mt.repeat(1,3,1,1)
         mt = mt.float().detach().cpu() * 255
         together.append(mt)
+        
+    # added by Sheila, we are trying to append the original images to the masks here
+    if 'original' in tensors_dict: 
+        for ot in tensors_dict['originals']:
+            together.append(ot)
 
     part_tensor = tensors_dict.get('part_tensor', [])
     for pt in part_tensor:
