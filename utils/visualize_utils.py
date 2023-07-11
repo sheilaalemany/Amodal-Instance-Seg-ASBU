@@ -21,6 +21,9 @@ def visualize_tensor(tensors_dict, mean, div):
     if 'originals' in tensors_dict: 
         print('...we reached the point where we are appending the originals to together!')
         for ot in tensors_dict['originals']:
+            ot = unormalize(ot.detach().cpu(), mean, div)
+            ot *= 255
+            ot = torch.clamp(ot, 0, 255)
             together.append(ot)
 
     part_tensor = tensors_dict.get('part_tensor', [])
@@ -29,9 +32,9 @@ def visualize_tensor(tensors_dict, mean, div):
         
     if len(together) == 0:
         return None
-    together = torch.cat(together, dim=4) # changed from 3 to 4
+    together = torch.cat(together, dim=3) # changed from 3 to 4, back to 3
     together = together.permute(1,0,2,3).contiguous()
-    together = together.view(together.size(0), -1, together.size(4)) # changed from 3 to 4
+    together = together.view(together.size(0), -1, together.size(3)) # changed from 3 to 4, back to 3
     return together
 
 def unormalize(tensor, mean, div):
