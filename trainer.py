@@ -1,4 +1,4 @@
-import os
+ import os
 import cv2
 import time
 import numpy as np
@@ -194,38 +194,38 @@ class Trainer(object):
                 self.curr_step == self.args.model['total_iter']):
                 self.validate('on_val')
             
-    def validate1(self, phase):
-        btime_rec = utils.AverageMeter(0)
-        dtime_rec = utils.AverageMeter(0)
-        recorder = {}
-        for rec in self.args.trainer['loss_record']:
-            recorder[rec] = utils.AverageMeter(10)
-
-        self.model.switch_to('eval')
-
-        total_count_dict = defaultdict(int)
-        print(len(self.val_loader), len(self.val_loader.dataset))
-
-        end = time.time()
-        all_together = []
-        for i, inputs in enumerate(tqdm(self.val_loader)):
-            dtime_rec.update(time.time() - end)
-
-            self.model.set_input(*inputs)
-            tensor_dict, loss_dict, count_dict = self.model.forward_only(val=phase=='off_val', stat=True)
-            
-            for k, v in count_dict.items():
-                total_count_dict[k] += v
-
-            for k in loss_dict.keys():
-                recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
-            btime_rec.update(time.time() - end)
-            end = time.time()
-
-        print(total_count_dict)
-        print({k: v / total_count_dict['total'] for k, v in total_count_dict.items()})
-
-        self.model.switch_to('train')
+    # def validate1(self, phase):
+    #     btime_rec = utils.AverageMeter(0)
+    #     dtime_rec = utils.AverageMeter(0)
+    #     recorder = {}
+    #     for rec in self.args.trainer['loss_record']:
+    #         recorder[rec] = utils.AverageMeter(10)
+    #
+    #     self.model.switch_to('eval')
+    #
+    #     total_count_dict = defaultdict(int)
+    #     print(len(self.val_loader), len(self.val_loader.dataset))
+    #
+    #     end = time.time()
+    #     all_together = []
+    #     for i, inputs in enumerate(tqdm(self.val_loader)):
+    #         dtime_rec.update(time.time() - end)
+    #
+    #         self.model.set_input(*inputs)
+    #         tensor_dict, loss_dict, count_dict = self.model.forward_only(val=phase=='off_val', stat=True)
+    #
+    #         for k, v in count_dict.items():
+    #             total_count_dict[k] += v
+    #
+    #         for k in loss_dict.keys():
+    #             recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
+    #         btime_rec.update(time.time() - end)
+    #         end = time.time()
+    #
+    #     print(total_count_dict)
+    #     print({k: v / total_count_dict['total'] for k, v in total_count_dict.items()})
+    #
+    #     self.model.switch_to('train')
 
     def validate(self, phase):
         btime_rec = utils.AverageMeter(0)
@@ -248,6 +248,7 @@ class Trainer(object):
 
             self.model.set_input(*inputs)
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
+            print('...tensor_dict: ', tensor_dict.shape)
 
             for k in loss_dict.keys():
                 recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
@@ -263,6 +264,8 @@ class Trainer(object):
                         utils.visualize_tensor(tensor_dict,
                         self.args.data.get('data_mean', [0,0,0]),
                         self.args.data.get('data_std', [1,1,1])))
+                        
+                    print('...all_together length: ', len(all_together))
                 if (i == disp_end - 1 and disp_end > disp_start):
                     all_together = torch.cat(all_together, dim=2)
                     grid = vutils.make_grid(all_together,
