@@ -231,12 +231,6 @@ class Trainer(object):
         
         print('...val_loader and val_loader.dataset:', len(self.val_loader), len(self.val_loader.dataset)) 
         
-        # batch = next(iter(self.val_loader)) ## the outputs of these were 4
-#         print('val_loader image, label or just image?:', len(batch))
-#
-#         batch_another = next(iter(self.val_loader.dataset))
-#         print('val_loader.dataset image, label or just image?:', len(batch_another))
-        
         btime_rec = utils.AverageMeter(0)
         dtime_rec = utils.AverageMeter(0)
         recorder = {}
@@ -256,7 +250,7 @@ class Trainer(object):
             self.model.set_input(*inputs)
             
             # added by Sheila
-            original_images = self.model.rgb # found that the set_inputs function has an rgb parameter
+            original_images = self.val_loader.dataset # found that the set_inputs function has an rgb parameter
             # print('inputs maybe? ', original_images) # these are potentially the images!
             
             # we know tensor_dict has the output of the input we are passing for each val_loader item
