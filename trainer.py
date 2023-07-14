@@ -253,7 +253,7 @@ class Trainer(object):
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
             #print('tensor_dict: ', tensor_dict.keys()) 
             
-            print('self.val_loader.data_reader keys?:', self.val_loader.data_reader.keys())
+            print('self.val_loader.data_reader keys?:', self.val_loader.dataset.data_reader.keys())
             
             new_tensor_dict = {'originals': original_images}
             tensor_dict.update(new_tensor_dict)
