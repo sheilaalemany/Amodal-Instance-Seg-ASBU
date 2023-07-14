@@ -256,13 +256,16 @@ class Trainer(object):
             # figuring out how to access filenames
             images_info_for_filenames = self.val_loader.dataset.data_reader.images_info
             print('total amount of images_info_for_filenames: ', len(images_info_for_filenames))
-            print('what about the images_info[0]: ', len(images_info_for_filenames[0]))
-            for i in range(len(images_info_for_filenames)):
-                img_info = images_info_for_filenames[i]
-                print(img_info['file_name'])
+            
+            print('length of images_info[i]: ', len(images_info_for_filenames[i]))
+            
+            # for j in range(len(images_info_for_filenames[i])):
+            #     img_info = images_info_for_filenames[j]
+            #     print(img_info['file_name'])
             # print('self.val_loader.data_reader keys?:', self.val_loader.dataset.data_reader.images_info)
             
             original_images = inputs[0]
+            print('length of original images: ', len(original_images))
             new_tensor_dict = {'originals': original_images}
             tensor_dict.update(new_tensor_dict)
             print('updated tensor_dict keys: ', tensor_dict.keys())
