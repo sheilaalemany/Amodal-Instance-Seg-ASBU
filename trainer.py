@@ -264,10 +264,10 @@ class Trainer(object):
             #print('tensor_dict: ', tensor_dict.keys())
             
             original_images = inputs[0]
-            print('length of original images: ', len(original_images))
+            # print('length of original images: ', len(original_images))
             new_tensor_dict = {'originals': original_images}
             tensor_dict.update(new_tensor_dict)
-            print('updated tensor_dict keys: ', tensor_dict.keys())
+            # print('updated tensor_dict keys: ', tensor_dict.keys())
             
             for k in loss_dict.keys():
                 recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
