@@ -9,19 +9,19 @@ def visualize_tensor(tensors_dict, mean, div):
         ct = unormalize(ct.detach().cpu(), mean, div)
         ct *= 255
         ct = torch.clamp(ct, 0, 255)
-        print('common tensor shape: ', ct.shape)
+        # print('common tensor shape: ', ct.shape)
         together.append(ct)
 
     for mt in tensors_dict['mask_tensors']:
         if mt.size(1) == 1:
             mt = mt.repeat(1,3,1,1)
         mt = mt.float().detach().cpu() * 255
-        print('mask tensor shape: ', mt.shape)
+        # print('mask tensor shape: ', mt.shape)
         together.append(mt)
         
     # added by Sheila, we are trying to append the original images to the masks here
     if 'originals' in tensors_dict: 
-        print('...we reached the point where we are appending the originals to together!')
+        # print('...we reached the point where we are appending the originals to together!')
         # ot = tensors_dict['originals'].detach().cpu()
         ot = tensors_dict['originals'] * 255
         print('ot shape: ', ot.shape)
@@ -35,12 +35,12 @@ def visualize_tensor(tensors_dict, mean, div):
         
     if len(together) == 0:
         return None
-    print('len(together): ', len(together))
+    # print('len(together): ', len(together))
     
     together = torch.cat(together, dim=3) # changed from 3 to 4
     together = together.permute(1,0,2,3).contiguous()
     together = together.view(together.size(0), -1, together.size(3)) # changed from 3 to 4
-    print('...we have successfully put everything together')
+    # print('...we have successfully put everything together')
     return together
 
 def unormalize(tensor, mean, div):
