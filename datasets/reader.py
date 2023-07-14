@@ -57,6 +57,7 @@ class COCOADataset(object):
     def __init__(self, annot_fn):
         data = cvb.load(annot_fn)
         print('annot_file data read type', type(data))
+        print('the data keys: ', data.keys())
         self.images_info = data['images']
         self.annot_info = data['annotations']
 
