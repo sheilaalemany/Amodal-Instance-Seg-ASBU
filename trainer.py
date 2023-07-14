@@ -256,7 +256,7 @@ class Trainer(object):
             # figuring out how to access filenames
             images_info_for_filenames = self.val_loader.dataset.data_reader.images_info
             print('total amount of images_info_for_filenames: ', len(images_info_for_filenames))
-            for i in range(images_info_for_filenames)):
+            for i in range(images_info_for_filenames):
                 img_info = images_info_for_filenames[i]
                 print(img_info['file_name'])
             # print('self.val_loader.data_reader keys?:', self.val_loader.dataset.data_reader.images_info)
