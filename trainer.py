@@ -264,9 +264,6 @@ class Trainer(object):
             tensor_dict.update(new_tensor_dict)
             print('updated tensor_dict keys: ', tensor_dict.keys()) 
             
-            sample_fname, _ = self.val_loader.dataset.samples[i]
-            print('filename: ', sample_fname)
-
             for k in loss_dict.keys():
                 recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
             btime_rec.update(time.time() - end)
