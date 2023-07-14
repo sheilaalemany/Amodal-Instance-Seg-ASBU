@@ -242,9 +242,13 @@ class Trainer(object):
 
         end = time.time()
         
+        # accessing filenames
         images_info_for_filenames = self.val_loader.dataset.data_reader.images_info
         with open("images_used_for_masks.json", "w") as outfile:
-            json.dump(images_info_for_filenames[0], outfile) # it seems every index has the same group of images indexed
+            for j in range(len(images_info_for_filenames[0])): # it seems every index has the same group of images indexed
+                img_info = images_info_for_filenames[j]
+                json.dump(img_info['file_name'], outfile) 
+                print(img_info['file_name'])
         
         all_together = []
         for i, inputs in enumerate(self.val_loader):
@@ -257,13 +261,7 @@ class Trainer(object):
             
             # we know tensor_dict has the output of the input we are passing for each val_loader item
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
-            #print('tensor_dict: ', tensor_dict.keys()) 
-            
-            # figuring out how to access filenames
-            print('length of images_info[i]: ', len(images_info_for_filenames[i]))
-            # for j in range(len(images_info_for_filenames[i])):
-            #     img_info = images_info_for_filenames[j]
-            #     print(img_info['file_name'])
+            #print('tensor_dict: ', tensor_dict.keys())
             
             original_images = inputs[0]
             print('length of original images: ', len(original_images))
