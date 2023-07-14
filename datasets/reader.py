@@ -60,6 +60,8 @@ class COCOADataset(object):
         print('the data keys: ', data.keys())
         self.images_info = data['images']
         self.annot_info = data['annotations']
+        
+        print('self.annot_info keys: ', self.annot_info.keys())
 
         self.indexing = []
         for i, ann in enumerate(self.annot_info):
