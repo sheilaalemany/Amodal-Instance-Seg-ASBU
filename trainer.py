@@ -247,7 +247,7 @@ class Trainer(object):
         with open("images_used_for_masks.json", "w") as outfile:
             for j in range(len(images_info_for_filenames[0])): # it seems every index has the same group of images indexed
                 img_info = images_info_for_filenames[j]
-                json.dump(img_info['file_name'], outfile) 
+                json.dump(img_info['file_name']+'\n', outfile) 
                 print(img_info['file_name'])
         
         all_together = []
