@@ -12,7 +12,7 @@ from trainer import Trainer
 def main(args):
     with open(args.config) as f:
         config = yaml.load(f, Loader=yaml.FullLoader)
-    print('...finished open')
+    # print('...finished open')
 
     for k, v in config.items():
         setattr(args, k, v)
@@ -20,17 +20,16 @@ def main(args):
     # exp path
     if not hasattr(args, 'exp_path'):
         args.exp_path = os.path.dirname(args.config)
-    print('...finished exporting path')
+    # print('...finished exporting path')
 
     # dist init
     ## when I am running it, it gets stuck here for some reason and does not ever reach trainer
     if mp.get_start_method(allow_none=True) != 'spawn':
-        print('...spawn the mp.set_start_method')
+        # print('...spawn the mp.set_start_method')
         mp.set_start_method('spawn', force=True)
     print('...initializing launcher')
     dist_init(args.launcher, backend='nccl')
-    
-    ('...starting the trainer')
+
     # train
     trainer = Trainer(args)
     trainer.run()

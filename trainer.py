@@ -230,7 +230,7 @@ class Trainer(object):
 
     def validate(self, phase):
         
-        print('...val_loader and val_loader.dataset sizes:', len(self.val_loader), len(self.val_loader.dataset))
+        # print('...val_loader and val_loader.dataset sizes:', len(self.val_loader), len(self.val_loader.dataset))
         
         btime_rec = utils.AverageMeter(0)
         dtime_rec = utils.AverageMeter(0)
@@ -292,7 +292,7 @@ class Trainer(object):
                                             range=(0, 255),
                                             scale_each=False)
                                             
-                    print('...grid shape: ', grid.shape) # grid shape is the same as all_together shape
+                    # print('...grid shape: ', grid.shape) # grid shape is the same as all_together shape
                     
                     if self.tb_logger is not None:
                         self.tb_logger.add_image('Image_' + phase, grid,

@@ -24,7 +24,7 @@ def visualize_tensor(tensors_dict, mean, div):
         # print('...we reached the point where we are appending the originals to together!')
         # ot = tensors_dict['originals'].detach().cpu()
         ot = tensors_dict['originals'] * 255
-        print('ot shape: ', ot.shape)
+        # print('ot shape: ', ot.shape)
         # ot = torch.tensor(ot)
         # ot = torch.reshape(ot, (32, 3, 256, 256))
         together.append(ot)
