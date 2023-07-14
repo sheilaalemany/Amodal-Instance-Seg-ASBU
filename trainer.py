@@ -252,17 +252,12 @@ class Trainer(object):
             # we know tensor_dict has the output of the input we are passing for each val_loader item
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
             #print('tensor_dict: ', tensor_dict.keys()) 
-
-            # added by Sheila
-            # original_images = self.model.rgb
-            original_images = inputs[0] # needs to be converted to Tensor from the 'PartialCompDataset'?
-            # print('input length: ', len(inputs))
-            # print('input length of first item: ', len(inputs[0]))
-            # print('input type of first item: ', type(inputs[0]))
+            
+            print('self.val_loader.data_reader keys?:', self.val_loader.data_reader.keys())
             
             new_tensor_dict = {'originals': original_images}
             tensor_dict.update(new_tensor_dict)
-            print('updated tensor_dict keys: ', tensor_dict.keys()) 
+            print('updated tensor_dict keys: ', tensor_dict.keys())
             
             for k in loss_dict.keys():
                 recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
