@@ -219,7 +219,7 @@ class Trainer(object):
                 img_info = images_info_for_filenames[j]
                 json.dump(img_info['file_name'], outfile) 
                 outfile.write('\n')
-                print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
+            print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
         
         all_together = []
         for i, inputs in enumerate(self.val_loader):
@@ -292,6 +292,7 @@ class Trainer(object):
         
     def export_masks(self, phase):
 
+        print('...entering export_masks')
         self.model.switch_to('eval')
         
         # accessing filenames (this needs to be changed to work for all the batches not just one)
@@ -314,7 +315,7 @@ class Trainer(object):
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
             #print('tensor_dict: ', tensor_dict.keys())
             
-            for j in range(inputs):
+            for j in range(len(inputs)):
                 original_images = inputs[0]
                 new_tensor_dict = {'originals': original_images}
                 tensor_dict.update(new_tensor_dict)
