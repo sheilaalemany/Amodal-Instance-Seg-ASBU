@@ -53,6 +53,7 @@ class Trainer(object):
                     args.exp_path))
             else:
                 self.tb_logger = None
+                
             if args.validate:
                 self.logger = utils.create_logger(
                     'global_logger',
@@ -119,9 +120,11 @@ class Trainer(object):
 
     def run(self):
 
-        # offline validate
+        # offline validate function is called 
         if self.args.validate:
             self.validate('off_val')
+            # here we probably want to also run a function to print out all the data?
+            self.export_masks('off_val')
             return
 
         if self.args.trainer['initial_val']:
@@ -194,39 +197,6 @@ class Trainer(object):
             if (self.curr_step % self.args.trainer['val_freq'] == 0 or
                 self.curr_step == self.args.model['total_iter']):
                 self.validate('on_val')
-            
-    # def validate1(self, phase):
-    #     btime_rec = utils.AverageMeter(0)
-    #     dtime_rec = utils.AverageMeter(0)
-    #     recorder = {}
-    #     for rec in self.args.trainer['loss_record']:
-    #         recorder[rec] = utils.AverageMeter(10)
-    #
-    #     self.model.switch_to('eval')
-    #
-    #     total_count_dict = defaultdict(int)
-    #     print(len(self.val_loader), len(self.val_loader.dataset))
-    #
-    #     end = time.time()
-    #     all_together = []
-    #     for i, inputs in enumerate(tqdm(self.val_loader)):
-    #         dtime_rec.update(time.time() - end)
-    #
-    #         self.model.set_input(*inputs)
-    #         tensor_dict, loss_dict, count_dict = self.model.forward_only(val=phase=='off_val', stat=True)
-    #
-    #         for k, v in count_dict.items():
-    #             total_count_dict[k] += v
-    #
-    #         for k in loss_dict.keys():
-    #             recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
-    #         btime_rec.update(time.time() - end)
-    #         end = time.time()
-    #
-    #     print(total_count_dict)
-    #     print({k: v / total_count_dict['total'] for k, v in total_count_dict.items()})
-    #
-    #     self.model.switch_to('train')
 
     def validate(self, phase):
         
@@ -244,12 +214,12 @@ class Trainer(object):
         
         # accessing filenames
         images_info_for_filenames = self.val_loader.dataset.data_reader.images_info
-        with open("images_used_for_masks.json", "w") as outfile:
+        with open("batch_images_used_for_masks.json", "w") as outfile:
             for j in range(len(images_info_for_filenames[0])): # it seems every index has the same group of images indexed
                 img_info = images_info_for_filenames[j]
                 json.dump(img_info['file_name'], outfile) 
                 outfile.write('\n')
-                print(img_info['file_name'])
+                print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
         
         all_together = []
         for i, inputs in enumerate(self.val_loader):
@@ -319,3 +289,62 @@ class Trainer(object):
                     data_time=dtime_rec) + loss_str)
 
         self.model.switch_to('train')
+        
+    def export_masks(self, phase):
+
+        self.model.switch_to('eval')
+        
+        # accessing filenames (this needs to be changed to work for all the batches not just one)
+        images_info_for_filenames = self.val_loader.dataset.data_reader.images_info
+        with open("generated_masks_image_filenames.json", "w") as outfile:
+            for j in range(len(images_info_for_filenames[0])):
+                img_info = images_info_for_filenames[j]
+                json.dump(img_info['file_name'], outfile) 
+                outfile.write('\n')
+                print(img_info['file_name'])
+        
+        all_together = []
+        for i, inputs in enumerate(self.val_loader):
+            if ('val_iter' in self.args.trainer and self.args.trainer['val_iter'] != -1 and i == self.args.trainer['val_iter']):
+                break
+
+            self.model.set_input(*inputs)
+            
+            # we know tensor_dict has the output of the input we are passing for each val_loader item
+            tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
+            #print('tensor_dict: ', tensor_dict.keys())
+            
+            for j in range(inputs):
+                original_images = inputs[0]
+                new_tensor_dict = {'originals': original_images}
+                tensor_dict.update(new_tensor_dict)
+                # print('updated tensor_dict keys: ', tensor_dict.keys())
+            
+                for k in loss_dict.keys():
+                    recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
+                    # btime_rec.update(time.time() - end)
+                    # end = time.time()
+
+                    # tb visualize
+                    if self.rank == 0:
+                        disp_start = max(self.args.trainer['val_disp_start_iter'], 0)
+                        disp_end = min(self.args.trainer['val_disp_end_iter'], len(self.val_loader))
+                        if (i >= disp_start and i < disp_end):
+                            all_together.append(utils.visualize_tensor(tensor_dict, self.args.data.get('data_mean', [0,0,0]), self.args.data.get('data_std', [1,1,1])))
+                 
+                            if (i == disp_end - 1 and disp_end > disp_start):
+                                all_together = torch.cat(all_together, dim=2)
+                                # so it seems all_together has a column of mask/boundary images, we want to get the column of original images
+                    
+                                grid = vutils.make_grid(all_together, nrow=1, normalize=True, range=(0, 255), scale_each=False)
+                                            
+                                print('...grid shape: ', grid.shape) # grid shape is the same as all_together shape
+                    
+                                if self.tb_logger is not None:
+                                    self.tb_logger.add_image('Image_' + phase, grid,
+                                    self.curr_step)
+                                    cv2.imwrite("{}/images/{}_{}.png".format(self.args.exp_path, phase, self.curr_step),
+                                    grid.permute(1, 2, 0).numpy()*255)
+
+        self.model.switch_to('train')
+    
