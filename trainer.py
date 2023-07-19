@@ -235,7 +235,7 @@ class Trainer(object):
             #print('tensor_dict: ', tensor_dict.keys())
             
             print('images length and dataset size: ', len(inputs), len(self.val_loader.dataset))
-            print('self.val_loader.dataset.data_reader keys: ', self.val_loader.dataset.data_reader.keys())
+            print('self.val_loader.dataset.data_reader: ', self.val_loader.dataset.data_reader)
             original_images = inputs[0]
             # print('length of original images: ', len(original_images))
             new_tensor_dict = {'originals': original_images}
