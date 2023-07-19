@@ -303,7 +303,7 @@ class Trainer(object):
                 json.dump(img_info['file_name'], outfile) 
                 outfile.write('\n')
                 print(img_info['file_name'])
-        
+                
         all_together = []
         for i, inputs in enumerate(self.val_loader):
             if ('val_iter' in self.args.trainer and self.args.trainer['val_iter'] != -1 and i == self.args.trainer['val_iter']):
@@ -321,31 +321,32 @@ class Trainer(object):
                 tensor_dict.update(new_tensor_dict)
                 # print('updated tensor_dict keys: ', tensor_dict.keys())
             
-                for k in loss_dict.keys():
+                # for k in loss_dict.keys():
                     # recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
-                    # btime_rec.update(time.time() - end)
-                    # end = time.time()
+                # btime_rec.update(time.time() - end)
+                # end = time.time()
 
-                    # tb visualize
-                    if self.rank == 0:
-                        disp_start = max(self.args.trainer['val_disp_start_iter'], 0)
-                        disp_end = min(self.args.trainer['val_disp_end_iter'], len(self.val_loader))
-                        if (i >= disp_start and i < disp_end):
-                            all_together.append(utils.visualize_tensor(tensor_dict, self.args.data.get('data_mean', [0,0,0]), self.args.data.get('data_std', [1,1,1])))
-                 
-                            if (i == disp_end - 1 and disp_end > disp_start):
-                                all_together = torch.cat(all_together, dim=2)
-                                # so it seems all_together has a column of mask/boundary images, we want to get the column of original images
-                    
-                                grid = vutils.make_grid(all_together, nrow=1, normalize=True, range=(0, 255), scale_each=False)
-                                            
-                                print('...grid shape: ', grid.shape) # grid shape is the same as all_together shape
-                    
-                                if self.tb_logger is not None:
-                                    self.tb_logger.add_image('Image_' + phase, grid,
-                                    self.curr_step)
-                                    cv2.imwrite("{}/images/{}_{}.png".format(self.args.exp_path, phase, self.curr_step),
-                                    grid.permute(1, 2, 0).numpy()*255)
+                # tb visualize
+                if self.rank == 0:
+                    disp_start = max(self.args.trainer['val_disp_start_iter'], 0)
+                    disp_end = min(self.args.trainer['val_disp_end_iter'], len(self.val_loader))
+                    if (i >= disp_start and i < disp_end):
+                        
+                        all_together.append(utils.visualize_tensor(tensor_dict, self.args.data.get('data_mean', [0,0,0]), self.args.data.get('data_std', [1,1,1])))
+             
+                        if (i == disp_end - 1 and disp_end > disp_start):
+                            all_together = torch.cat(all_together, dim=2)
+                            # so it seems all_together has a column of mask/boundary images, we want to get the column of original images
+                
+                            grid = vutils.make_grid(all_together, nrow=1, normalize=True, range=(0, 255), scale_each=False)
+                                        
+                            print('...grid shape: ', grid.shape) # grid shape is the same as all_together shape
+                
+                            if self.tb_logger is not None:
+                                self.tb_logger.add_image('Image_' + phase, grid,
+                                self.curr_step)
+                                cv2.imwrite("{}/images/{}_{}.png".format(self.args.exp_path, phase, self.curr_step),
+                                grid.permute(1, 2, 0).numpy()*255)
 
         self.model.switch_to('train')
     
