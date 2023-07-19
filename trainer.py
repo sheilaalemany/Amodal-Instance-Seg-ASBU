@@ -221,8 +221,10 @@ class Trainer(object):
                 outfile.write('\n')
             print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
         
+        print('self.val_loader: ', len(self.val_loader), type(self.val_loader), self.val_loader[0])
+        
         all_together = []
-        for i, inputs in enumerate(self.val_loader.dataset):
+        for i, inputs in enumerate(self.val_loader):
             if ('val_iter' in self.args.trainer and self.args.trainer['val_iter'] != -1 and i == self.args.trainer['val_iter']):
                 break
 
@@ -233,6 +235,7 @@ class Trainer(object):
             # we know tensor_dict has the output of the input we are passing for each val_loader item
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
             #print('tensor_dict: ', tensor_dict.keys())
+            
             
             print('images length and dataset size: ', len(inputs), len(self.val_loader.dataset))
             print('self.val_loader.dataset.data_reader: ', len(self.val_loader.dataset.data_reader.images_info))
