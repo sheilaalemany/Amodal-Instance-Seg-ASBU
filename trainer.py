@@ -234,6 +234,8 @@ class Trainer(object):
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
             #print('tensor_dict: ', tensor_dict.keys())
             
+            print('images length and dataset size: ', len(inputs), len(self.self.val_loader.dataset))
+            print('self.val_loader.dataset.data_reader keys: ', self.val_loader.dataset.data_reader.keys())
             original_images = inputs[0]
             # print('length of original images: ', len(original_images))
             new_tensor_dict = {'originals': original_images}
@@ -291,9 +293,17 @@ class Trainer(object):
         self.model.switch_to('train')
         
     def export_masks(self, phase):
+        
+        btime_rec = utils.AverageMeter(0)
+        dtime_rec = utils.AverageMeter(0)
+        recorder = {}
+        for rec in self.args.trainer['loss_record']:
+            recorder[rec] = utils.AverageMeter(10)
 
         print('...entering export_masks')
         self.model.switch_to('eval')
+        
+        end = time.time()
         
         # accessing filenames (this needs to be changed to work for all the batches not just one)
         images_info_for_filenames = self.val_loader.dataset.data_reader.images_info
@@ -308,6 +318,8 @@ class Trainer(object):
         for i, inputs in enumerate(self.val_loader):
             if ('val_iter' in self.args.trainer and self.args.trainer['val_iter'] != -1 and i == self.args.trainer['val_iter']):
                 break
+                
+            dtime_rec.update(time.time() - end)
 
             self.model.set_input(*inputs)
             
@@ -321,10 +333,10 @@ class Trainer(object):
                 tensor_dict.update(new_tensor_dict)
                 # print('updated tensor_dict keys: ', tensor_dict.keys())
             
-                # for k in loss_dict.keys():
-                    # recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
-                # btime_rec.update(time.time() - end)
-                # end = time.time()
+                for k in loss_dict.keys():
+                    recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
+                btime_rec.update(time.time() - end)
+                end = time.time()
 
                 # tb visualize
                 if self.rank == 0:
