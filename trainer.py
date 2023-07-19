@@ -234,7 +234,7 @@ class Trainer(object):
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
             #print('tensor_dict: ', tensor_dict.keys())
             
-            print('images length and dataset size: ', len(inputs), len(self.self.val_loader.dataset))
+            print('images length and dataset size: ', len(inputs), len(self.val_loader.dataset))
             print('self.val_loader.dataset.data_reader keys: ', self.val_loader.dataset.data_reader.keys())
             original_images = inputs[0]
             # print('length of original images: ', len(original_images))
