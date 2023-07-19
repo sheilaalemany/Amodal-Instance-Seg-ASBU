@@ -221,7 +221,7 @@ class Trainer(object):
                 outfile.write('\n')
             print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
         
-        print('self.val_loader: ', len(self.val_loader), type(self.val_loader))
+        print('self.val_loader: ', len(self.val_loader), type(self.val_loader.data_reader))
         
         all_together = []
         for i, inputs in enumerate(self.val_loader):
@@ -236,10 +236,9 @@ class Trainer(object):
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
             #print('tensor_dict: ', tensor_dict.keys())
             
-            
             print('images length and dataset size: ', len(inputs), len(self.val_loader.dataset))
             print('self.val_loader.dataset.data_reader: ', len(self.val_loader.dataset.data_reader.images_info))
-            print('self.val_loader.dataset[0]: ', len(self.val_loader.dataset[0]))
+            # print('self.val_loader.dataset[0]: ', len(self.val_loader.dataset[0]))
             original_images = inputs[0]
             # print('length of original images: ', len(original_images))
             new_tensor_dict = {'originals': original_images}
