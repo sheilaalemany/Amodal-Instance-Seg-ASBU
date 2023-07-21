@@ -217,7 +217,7 @@ class Trainer(object):
 
             dtime_rec.update(time.time() - end)
 
-            print('...inputs type: ', inputs[i])
+            print('...inputs type: ', inputs[0], inputs[1], inputs[2])
             self.model.set_input(*inputs)
             
             # we know tensor_dict has the output of the for each val_loader input
