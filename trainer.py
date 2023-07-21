@@ -288,16 +288,14 @@ class Trainer(object):
                 json.dump(img_info['file_name'], outfile)
                 outfile.write('\n')
             print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
-        
-        print('...verfying dataset type: ', type(self.val_loader), type(self.val_loader.dataset), type(self.val_loader.dataset.data_reader))
-        
+                
         data_reader_var = self.val_loader.dataset.data_reader
-        print('...self.data_length: ', data_reader_var.get_image_length())
+        print('...verifying self.data_length: ', data_reader_var.get_image_length())
         
         for i in range(data_reader_var.get_image_length()):
             modal, category, bboxes, amodal_gt, image_fn = data_reader_var.get_image_instances(i, with_gt=True)
             
-            image = Image.open(os.path.join(self.data_root, image_fn)).convert('RGB') # self.data_root = self.args.image_root
+            image = Image.open(os.path.join(data_reader_var.data_root, image_fn)).convert('RGB') # self.data_root = self.args.image_root
             if image.size[0] != modal.shape[2] or image.size[1] != modal.shape[1]:
                 image = image.resize((modal.shape[2], modal.shape[1]))
                 image = np.array(image)
