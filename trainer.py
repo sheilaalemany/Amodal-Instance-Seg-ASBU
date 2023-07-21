@@ -287,7 +287,7 @@ class Trainer(object):
                 outfile.write('\n')
             print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
         
-        data_inputs = get_image_instances(self.val_loader.dataset.data_reader)
+        data_inputs = self.val_loader.dataset.data_reader.get_image_instances()
         print('...verfying dataset type: ', type(data_inputs), type(self.val_loader))
         self.model.set_input(data_inputs)
         tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
