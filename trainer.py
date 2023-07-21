@@ -212,21 +212,18 @@ class Trainer(object):
 
         end = time.time()
         
-        # accessing filenames
+        # accessing image info
         images_info_for_filenames = self.val_loader.dataset.data_reader.images_info
         with open("batch_images_used_for_masks.json", "w") as outfile:
-            print('len(images_info_for_filenames): ', len(images_info_for_filenames))
+            print('how many images are we expecting to get masks for? ', len(images_info_for_filenames))
+            # extract the filenames for each image
             for b in range(len(images_info_for_filenames)):
-                print('len(images_info_for_filenames[b]): ', len(images_info_for_filenames[b]))
-                batch_img = images_info_for_filenames[b]
-                print(batch_img)
-                # for j in range(len(images_info_for_filenames[b])): # it seems every index has the same group of images indexed
-                    # img_info = batch_img
-                    # json.dump(img_info['file_name'], outfile)
-                    # outfile.write('\n')
+                img_info = images_info_for_filenames[b]
+                json.dump(img_info['file_name'], outfile)
+                outfile.write('\n')
             print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
         
-        print('self.val_loader: ', len(self.val_loader), type(self.val_loader.data_reader))
+        # print('self.val_loader: ', len(self.val_loader), type(self.val_loader.data_reader))
         
         all_together = []
         for i, inputs in enumerate(self.val_loader):
