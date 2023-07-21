@@ -288,10 +288,8 @@ class Trainer(object):
             print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
         
         all_together = []
-        for i, inputs in enumerate(self.val_loader):
-            print(self.val_loader[i])
-        # for i in range(len(images_info)):
-            # print(images_info[i])
+        for i in range(len(self.val_loader.dataset)):
+            print(self.val_loader.dataset[i])
         
 
 
