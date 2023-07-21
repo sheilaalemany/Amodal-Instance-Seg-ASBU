@@ -217,6 +217,7 @@ class Trainer(object):
 
             dtime_rec.update(time.time() - end)
 
+            print('...inputs type: ', type(inputs))
             self.model.set_input(*inputs)
             
             # we know tensor_dict has the output of the for each val_loader input
@@ -292,6 +293,7 @@ class Trainer(object):
         data_reader_var = self.val_loader.dataset.data_reader
         print('...verifying self.data_length: ', data_reader_var.get_image_length())
         
+        all_images = []
         for i in range(data_reader_var.get_image_length()):
             modal, category, bboxes, amodal_gt, image_fn = data_reader_var.get_image_instances(i, with_gt=True)
             
@@ -300,12 +302,13 @@ class Trainer(object):
             if image.size[0] != modal.shape[2] or image.size[1] != modal.shape[1]:
                 image = image.resize((modal.shape[2], modal.shape[1]))
                 image = np.array(image)
+            all_images += image
         
-            print(image)
-            self.model.set_input(*image)
+        print(len(all_images))
+        self.model.set_input(*all_images)
                 
-            tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
-            print('did we get it? ', len(tensor_dict))
+        tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
+        print('did we get it? ', len(tensor_dict))
 
         self.model.switch_to('train')
     
