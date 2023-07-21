@@ -288,12 +288,19 @@ class Trainer(object):
             print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
         
         print('...verfying dataset type: ', type(self.val_loader), type(self.val_loader.dataset), type(self.val_loader.dataset.data_reader))
+        print('...self.data_length: ', self.data_length)
         
-        data_inputs = self.model.get_image_instances(self.val_loader.dataset.data_reader)
+        for i in range(self.data_length):
+            modal, category, bboxes, amodal_gt, image_fn = self.data_reader.get_image_instances(i, with_gt=True)
+            image = Image.open(os.path.join(self.data_root, image_fn)).convert('RGB')
+            if image.size[0] != modal.shape[2] or image.size[1] != modal.shape[1]:
+                image = image.resize((modal.shape[2], modal.shape[1]))
+                image = np.array(image)
         
-        self.model.set_input(data_inputs)
-        tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
-        print('did we get it? ', len(tensor_dict))
+                self.model.set_input(image)
+                
+                tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
+                print('did we get it? ', len(tensor_dict))
 
         self.model.switch_to('train')
     
