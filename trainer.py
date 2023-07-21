@@ -289,7 +289,7 @@ class Trainer(object):
         
         print('...verfying dataset type: ', type(self.val_loader), type(self.val_loader.dataset), type(self.val_loader.dataset.data_reader))
         
-        data_inputs = self.model.get_image_instances(self.val_loader.dataset)
+        data_inputs = self.model.get_image_instances(self.val_loader.dataset.data_reader)
         
         self.model.set_input(data_inputs)
         tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
