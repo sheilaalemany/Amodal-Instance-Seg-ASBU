@@ -288,9 +288,9 @@ class Trainer(object):
             print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
         
         print('...verfying dataset type: ', type(self.val_loader), type(self.val_loader.dataset), type(self.val_loader.dataset.data_reader))
-        print('...self.data_length: ', self.data_length)
+        print('...self.data_length: ', self.data_reader.get_image_length())
         
-        for i in range(self.data_length):
+        for i in range(self.data_reader.get_image_length()):
             modal, category, bboxes, amodal_gt, image_fn = self.data_reader.get_image_instances(i, with_gt=True)
             image = Image.open(os.path.join(self.data_root, image_fn)).convert('RGB')
             if image.size[0] != modal.shape[2] or image.size[1] != modal.shape[1]:
