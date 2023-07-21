@@ -295,7 +295,7 @@ class Trainer(object):
         for i in range(data_reader_var.get_image_length()):
             modal, category, bboxes, amodal_gt, image_fn = data_reader_var.get_image_instances(i, with_gt=True)
             
-            image = Image.open(os.path.join(data_reader_var.data_root, image_fn)).convert('RGB') # self.data_root = self.args.image_root
+            image = Image.open(os.path.join(self.args.image_root, image_fn)).convert('RGB') # self.data_root = self.args.image_root
             if image.size[0] != modal.shape[2] or image.size[1] != modal.shape[1]:
                 image = image.resize((modal.shape[2], modal.shape[1]))
                 image = np.array(image)
