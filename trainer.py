@@ -217,7 +217,6 @@ class Trainer(object):
 
             dtime_rec.update(time.time() - end)
 
-            print('...inputs type: ', inputs[0], inputs[1], inputs[2])
             self.model.set_input(*inputs)
             
             # we know tensor_dict has the output of the for each val_loader input
@@ -302,7 +301,7 @@ class Trainer(object):
             if image.size[0] != modal.shape[2] or image.size[1] != modal.shape[1]:
                 image = image.resize((modal.shape[2], modal.shape[1]))
                 image = np.array(image)
-            all_images += [image]
+            all_images += [modal]
         
         self.model.set_input(*all_images)
                 
