@@ -282,7 +282,7 @@ class Trainer(object):
             print('how many images are we expecting to get masks for? ', len(images_info))
             # extract the filenames for each image
             for b in range(len(images_info)):
-                img_info = images_info_for_filenames[b]
+                img_info = images_info[b]
                 json.dump(img_info['file_name'], outfile)
                 outfile.write('\n')
             print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
