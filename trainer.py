@@ -123,8 +123,7 @@ class Trainer(object):
         # offline validate function is called 
         if self.args.validate:
             self.validate('off_val')
-            # here we probably want to also run a function to print out all the data?
-            # self.export_masks('off_val')
+            self.export_masks('off_val') # here we probably want to also run a function to print out all the data?
             return
 
         if self.args.trainer['initial_val']:
@@ -198,10 +197,7 @@ class Trainer(object):
                 self.curr_step == self.args.model['total_iter']):
                 self.validate('on_val')
 
-    def validate(self, phase):
-        
-        # print('...val_loader and val_loader.dataset sizes:', len(self.val_loader), len(self.val_loader.dataset))
-        
+    def validate(self, phase):        
         btime_rec = utils.AverageMeter(0)
         dtime_rec = utils.AverageMeter(0)
         recorder = {}
@@ -212,19 +208,6 @@ class Trainer(object):
 
         end = time.time()
         
-        # accessing image info
-        images_info_for_filenames = self.val_loader.dataset.data_reader.images_info
-        with open("batch_images_used_for_masks.json", "w") as outfile:
-            print('how many images are we expecting to get masks for? ', len(images_info_for_filenames))
-            # extract the filenames for each image
-            for b in range(len(images_info_for_filenames)):
-                img_info = images_info_for_filenames[b]
-                json.dump(img_info['file_name'], outfile)
-                outfile.write('\n')
-            print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
-        
-        # print('self.val_loader: ', len(self.val_loader), type(self.val_loader.data_reader))
-        
         all_together = []
         for i, inputs in enumerate(self.val_loader):
             if ('val_iter' in self.args.trainer and self.args.trainer['val_iter'] != -1 and i == self.args.trainer['val_iter']):
@@ -234,18 +217,12 @@ class Trainer(object):
 
             self.model.set_input(*inputs)
             
-            # we know tensor_dict has the output of the input we are passing for each val_loader item
+            # we know tensor_dict has the output of the for each val_loader input
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
-            #print('tensor_dict: ', tensor_dict.keys())
-            
-            # print('images length and dataset size: ', len(inputs), len(self.val_loader.dataset))
-            # print('self.val_loader.dataset.data_reader: ', len(self.val_loader.dataset.data_reader.images_info))
-            # print('self.val_loader.dataset[0]: ', len(self.val_loader.dataset[0]))
+
             original_images = inputs[0]
-            # print('length of original images: ', len(original_images))
             new_tensor_dict = {'originals': original_images}
             tensor_dict.update(new_tensor_dict)
-            # print('updated tensor_dict keys: ', tensor_dict.keys())
             
             for k in loss_dict.keys():
                 recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
@@ -261,14 +238,13 @@ class Trainer(object):
                  
                 if (i == disp_end - 1 and disp_end > disp_start):
                     all_together = torch.cat(all_together, dim=2)
-                    # so it seems all_together has a column of mask/boundary images, we want to get the column of original images
+                    # so it seems all_together has a column of mask/boundary images, we want to get the column of original images (added)
                     
                     grid = vutils.make_grid(all_together,
                                             nrow=1,
                                             normalize=True,
                                             range=(0, 255),
                                             scale_each=False)
-                                            
                     # print('...grid shape: ', grid.shape) # grid shape is the same as all_together shape
                     
                     if self.tb_logger is not None:
@@ -294,6 +270,28 @@ class Trainer(object):
                     batch_time=btime_rec) +
                 'Data {data_time.val:.3f} ({data_time.avg:.3f})\t'.format(
                     data_time=dtime_rec) + loss_str)
+
+        self.model.switch_to('train')
+        
+    def export_masks(self, phase):
+        print('...entering export_masks')
+        
+        # accessing image info
+        images_info = self.val_loader.dataset.data_reader.images_info
+        with open("batch_images_used_for_masks.json", "w") as outfile:
+            print('how many images are we expecting to get masks for? ', len(images_info))
+            # extract the filenames for each image
+            for b in range(len(images_info)):
+                img_info = images_info_for_filenames[b]
+                json.dump(img_info['file_name'], outfile)
+                outfile.write('\n')
+            print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
+        
+        all_together = []
+        for i in range(len(images_info)):
+            print(images_info[i])
+        
+
 
         self.model.switch_to('train')
     
