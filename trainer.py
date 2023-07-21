@@ -217,7 +217,7 @@ class Trainer(object):
 
             dtime_rec.update(time.time() - end)
 
-            print('...inputs type: ', type(inputs))
+            print('...inputs type: ', inputs[i])
             self.model.set_input(*inputs)
             
             # we know tensor_dict has the output of the for each val_loader input
@@ -282,7 +282,7 @@ class Trainer(object):
         # accessing image info
         images_info = self.val_loader.dataset.data_reader.images_info
         with open("batch_images_used_for_masks.json", "w") as outfile:
-            print('how many images are we expecting to get masks for? ', len(images_info))
+            print('...how many images are we expecting to get masks for? ', len(images_info))
             # extract the filenames for each image
             for b in range(len(images_info)):
                 img_info = images_info[b]
@@ -291,7 +291,7 @@ class Trainer(object):
             print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
                 
         data_reader_var = self.val_loader.dataset.data_reader
-        print('...verifying self.data_length: ', data_reader_var.get_image_length())
+        # print('...verifying self.data_length: ', data_reader_var.get_image_length())
         
         all_images = []
         for i in range(data_reader_var.get_image_length()):
@@ -304,7 +304,6 @@ class Trainer(object):
                 image = np.array(image)
             all_images += [image]
         
-        print(len(all_images))
         self.model.set_input(*all_images)
                 
         tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
