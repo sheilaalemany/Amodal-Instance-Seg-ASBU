@@ -219,10 +219,11 @@ class Trainer(object):
             for b in range(len(images_info_for_filenames)):
                 print('len(images_info_for_filenames[b]): ', len(images_info_for_filenames[b]))
                 batch_img = images_info_for_filenames[b]
-                for j in range(len(images_info_for_filenames[b])): # it seems every index has the same group of images indexed
-                    img_info = batch_img[j]
-                    json.dump(img_info['file_name'], outfile) 
-                    outfile.write('\n')
+                print(batch_img)
+                # for j in range(len(images_info_for_filenames[b])): # it seems every index has the same group of images indexed
+                    # img_info = batch_img
+                    # json.dump(img_info['file_name'], outfile)
+                    # outfile.write('\n')
             print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
         
         print('self.val_loader: ', len(self.val_loader), type(self.val_loader.data_reader))
