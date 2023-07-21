@@ -287,11 +287,9 @@ class Trainer(object):
                 outfile.write('\n')
             print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
         
-        all_together = []
-        for i in range(len(self.val_loader.dataset)):
-            print(self.val_loader.dataset[i])
-        
-
+        self.model.set_input(self.val_loader.dataset)
+        tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
+        print('did we get it? ', len(tensor_dict))
 
         self.model.switch_to('train')
     
