@@ -20,6 +20,8 @@ from collections import defaultdict
 from tqdm import tqdm
 import json
 
+from PIL import Image
+
 torch.autograd.set_detect_anomaly(True)
 
 class Trainer(object):
