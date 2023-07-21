@@ -301,7 +301,8 @@ class Trainer(object):
                 image = image.resize((modal.shape[2], modal.shape[1]))
                 image = np.array(image)
         
-            self.model.set_input(image)
+            print(image)
+            self.model.set_input(*image)
                 
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
             print('did we get it? ', len(tensor_dict))
