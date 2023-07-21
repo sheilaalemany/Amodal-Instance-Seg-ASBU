@@ -302,7 +302,7 @@ class Trainer(object):
             if image.size[0] != modal.shape[2] or image.size[1] != modal.shape[1]:
                 image = image.resize((modal.shape[2], modal.shape[1]))
                 image = np.array(image)
-            all_images += image
+            all_images += [image]
         
         print(len(all_images))
         self.model.set_input(*all_images)
