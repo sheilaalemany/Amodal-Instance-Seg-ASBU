@@ -221,7 +221,7 @@ class Trainer(object):
             
             # we know tensor_dict has the output of the for each val_loader input
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
-            print('...tensor_dict:', tensor_dict)
+            # print('...tensor_dict:', tensor_dict['mask_tensors'])
 
             original_images = inputs[0]
             new_tensor_dict = {'originals': original_images}
@@ -251,10 +251,8 @@ class Trainer(object):
                     # print('...grid shape: ', grid.shape) # grid shape is the same as all_together shape
                     
                     if self.tb_logger is not None:
-                        self.tb_logger.add_image('Image_' + phase, grid,
-                                                 self.curr_step)
-                    cv2.imwrite("{}/images/{}_{}.png".format(self.args.exp_path, phase, self.curr_step),
-                            grid.permute(1, 2, 0).numpy()*255)
+                        self.tb_logger.add_image('Image_' + phase, grid, self.curr_step)
+                    cv2.imwrite("{}/images/{}_{}.png".format(self.args.exp_path, phase, self.curr_step), grid.permute(1, 2, 0).numpy()*255)
 
         # logging
         if self.rank == 0:
@@ -291,9 +289,13 @@ class Trainer(object):
             print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
                 
         data_reader_var = self.val_loader.dataset.data_reader
-        # print('...verifying self.data_length: ', data_reader_var.get_image_length())
+        print('...verifying self.data_length: ', data_reader_var.get_image_length())
         
         all_images = []
+        
+        all_modals = []
+        all_categories = []
+        all_amodal_gts = []
         for i in range(data_reader_var.get_image_length()):
             modal, category, bboxes, amodal_gt, image_fn = data_reader_var.get_image_instances(i, with_gt=True)
             
@@ -303,14 +305,23 @@ class Trainer(object):
             #     image = image.resize((modal.shape[2], modal.shape[1]))
             #     image = np.array(image)
             # all_images += [modal, category, bboxes, amodal_gt]
-            print('...modal: ', modal)
-            print('...category: ', category)
-            print('...amodal_gt: ', amodal_gt)
+            print('...modal: ', modal.shape)
+            print('...category: ', category.shape)
+            print('...amodal_gt: ', amodal_gt.shape)
             print('...image_filename: ', image_fn)
-            self.model.set_input(*[modal, category, bboxes, amodal_gt])
-                
-        tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
-        print('did we get it? ', len(tensor_dict))
+            # self.model.set_input(*[modal, category, bboxes, amodal_gt])
+            
+            all_together.append(utils.visualize_tensor({'mask_tensors': [modal, category, amodal_gt]}, self.args.data.get('data_mean', [0,0,0]), self.args.data.get('data_std', [1,1,1])))
+             
+        all_together = torch.cat(all_together, dim=2)
+        grid = vutils.make_grid(all_together,
+                                nrow=1,
+                                normalize=True,
+                                range=(0, 255),
+                                scale_each=False)
+        print('...grid shape from export_masks: ', grid.shape) # grid shape is the same as all_together shape
+        
+        # cv2.imwrite("{}/images/{}_exported_masks.png".format(self.args.exp_path, phase), grid.permute(1, 2, 0).numpy()*255)
 
         self.model.switch_to('train')
     
