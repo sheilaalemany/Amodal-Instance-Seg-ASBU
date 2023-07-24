@@ -312,7 +312,7 @@ class Trainer(object):
             print('...amodal_gt shape: ', amodal_gt.shape)
             print('...image_filename: ', image_fn)
             # self.model.set_input(*[modal, category, bboxes, amodal_gt])
-            tensor_dict_ours = {'common_tensors': [modal], 'mask_tensors': [modal, category, amodal_gt]}
+            tensor_dict_ours = {'common_tensors': [torch.tensor(modal)], 'mask_tensors': [torch.tensor(modal), torch.tensor(category), torch.tensor(amodal_gt)]}
             
             all_together.append(utils.visualize_tensor(tensor_dict_ours, self.args.data.get('data_mean', [0,0,0]), self.args.data.get('data_std', [1,1,1])))
              
