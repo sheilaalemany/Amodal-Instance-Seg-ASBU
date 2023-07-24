@@ -221,7 +221,7 @@ class Trainer(object):
             
             # we know tensor_dict has the output of the for each val_loader input
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
-            # print('...tensor_dict:', tensor_dict['mask_tensors'])
+            print('...tensor_dict:', tensor_dict['mask_tensors'][0].shape)
 
             original_images = inputs[0]
             new_tensor_dict = {'originals': original_images}
@@ -299,30 +299,33 @@ class Trainer(object):
         for i in range(data_reader_var.get_image_length()):
             modal, category, bboxes, amodal_gt, image_fn = data_reader_var.get_image_instances(i, with_gt=True)
             
-            # print('image_fn: ', image_fn)
-            # image = Image.open(os.path.join('data/COCOA/val2014/', image_fn)).convert('RGB') # self.data_root = self.args.image_root
-            # if image.size[0] != modal.shape[2] or image.size[1] != modal.shape[1]:
-            #     image = image.resize((modal.shape[2], modal.shape[1]))
-            #     image = np.array(image)
+            print('...image_fn: ', image_fn)
+            image = Image.open(os.path.join('data/COCOA/val2014/', image_fn)).convert('RGB') # self.data_root = self.args.image_root
+            if image.size[0] != modal.shape[2] or image.size[1] != modal.shape[1]:
+                image = image.resize((modal.shape[2], modal.shape[1]))
+                image = np.array(image)
+                
+            allpair_true, allpair, occpair_true, occpair, intersection, union, target = self.model.evaluate(image, modal, category, bboxes, amodal_gt, amodal_gt, modal.shape)
             # all_images += [modal, category, bboxes, amodal_gt]
             
+            print(allpair_true.shape, allpair.shape, occpair_true.shape, occpair.shape, intersection.shape, union.shape, target.shape)
             # print('...image shape: ', image.shape)
-            print('...modal shape: ', modal.shape)
-            print('...category shape: ', category.shape)
-            print('...amodal_gt shape: ', amodal_gt.shape)
-            print('...image_filename: ', image_fn)
+            # print('...modal shape: ', modal.shape)
+#             print('...category shape: ', category.shape)
+#             print('...amodal_gt shape: ', amodal_gt.shape)
+#             print('...image_filename: ', image_fn)
             # self.model.set_input(*[modal, category, bboxes, amodal_gt])
-            tensor_dict_ours = {'common_tensors': [torch.tensor(modal)], 'mask_tensors': [torch.tensor(modal), torch.tensor(category), torch.tensor(amodal_gt)]}
+            # tensor_dict_ours = {'common_tensors': [], 'mask_tensors': [modal, category, amodal_gt]}
             
-            all_together.append(utils.visualize_tensor(tensor_dict_ours, self.args.data.get('data_mean', [0,0,0]), self.args.data.get('data_std', [1,1,1])))
+            # all_together.append(utils.visualize_tensor(tensor_dict_ours, self.args.data.get('data_mean', [0,0,0]), self.args.data.get('data_std', [1,1,1])))
              
-        all_together = torch.cat(all_together, dim=2)
-        grid = vutils.make_grid(all_together,
-                                nrow=1,
-                                normalize=True,
-                                range=(0, 255),
-                                scale_each=False)
-        print('...grid shape from export_masks: ', grid.shape) # grid shape is the same as all_together shape
+        # all_together = torch.cat(all_together, dim=2)
+        # grid = vutils.make_grid(all_together,
+        #                         nrow=1,
+        #                         normalize=True,
+        #                         range=(0, 255),
+        #                         scale_each=False)
+        # print('...grid shape from export_masks: ', grid.shape) # grid shape is the same as all_together shape
         
         # cv2.imwrite("{}/images/{}_exported_masks.png".format(self.args.exp_path, phase), grid.permute(1, 2, 0).numpy()*255)
 
