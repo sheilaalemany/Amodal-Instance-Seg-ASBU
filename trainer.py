@@ -305,46 +305,10 @@ class Trainer(object):
                 image = image.resize((modal.shape[2], modal.shape[1]))
                 image = np.array(image)
                 
-            allpair_true, allpair, occpair_true, occpair, intersection, union, target = self.model.evaluate(image, modal, category, bboxes, amodal_gt, amodal_gt, modal.shape)
-            # all_images += [modal, category, bboxes, amodal_gt]
+            self.model.set_input([image, modal, category, bboxes, amodal_gt])
             
-            print(allpair_true.shape, allpair.shape, occpair_true.shape, occpair.shape, intersection.shape, union.shape, target.shape)
-            # print('...image shape: ', image.shape)
-            # print('...modal shape: ', modal.shape)
-#             print('...category shape: ', category.shape)
-#             print('...amodal_gt shape: ', amodal_gt.shape)
-#             print('...image_filename: ', image_fn)
-            # self.model.set_input(*[modal, category, bboxes, amodal_gt])
-            # tensor_dict_ours = {'common_tensors': [], 'mask_tensors': [modal, category, amodal_gt]}
-            
-            # all_together.append(utils.visualize_tensor(tensor_dict_ours, self.args.data.get('data_mean', [0,0,0]), self.args.data.get('data_std', [1,1,1])))
-             
-        # all_together = torch.cat(all_together, dim=2)
-        # grid = vutils.make_grid(all_together,
-        #                         nrow=1,
-        #                         normalize=True,
-        #                         range=(0, 255),
-        #                         scale_each=False)
-        # print('...grid shape from export_masks: ', grid.shape) # grid shape is the same as all_together shape
-        
-        # cv2.imwrite("{}/images/{}_exported_masks.png".format(self.args.exp_path, phase), grid.permute(1, 2, 0).numpy()*255)
+            tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
+ 
 
         self.model.switch_to('train')
         
-    # def our_forward_only(modal_vals):
-    #         with torch.no_grad():
-    #             if self.with_modal:
-    #                 output, _ = self.model(torch.cat([self.rgb, modal_vals], dim=1),
-    #                                        self.visible_mask4)
-    #             else:
-    #                 output, _ = self.model(self.rgb, self.visible_mask3)
-    #             if output.shape[2] != self.rgb.shape[2]:
-    #                 output = nn.functional.interpolate(
-    #                     output, size=self.rgb.shape[2:4],
-    #                     mode="bilinear", align_corners=True)
-    #             output_comp = self.visible_mask3 * self.rgb + (1 - self.visible_mask3) * output
-    #         ret_tensors = {'common_tensors': [self.rgb, output_comp, self.rgb_gt],
-    #                        'mask_tensors': [modal_vals, self.visible_mask3]}
-    #
-    #         return ret_tensors
-    
