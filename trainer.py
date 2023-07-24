@@ -248,7 +248,7 @@ class Trainer(object):
                                             normalize=True,
                                             range=(0, 255),
                                             scale_each=False)
-                    # print('...grid shape: ', grid.shape) # grid shape is the same as all_together shape
+                    print('...grid shape from validate: ', grid.shape) # grid shape is the same as all_together shape
                     
                     if self.tb_logger is not None:
                         self.tb_logger.add_image('Image_' + phase, grid, self.curr_step)
