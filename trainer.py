@@ -299,19 +299,22 @@ class Trainer(object):
         for i in range(data_reader_var.get_image_length()):
             modal, category, bboxes, amodal_gt, image_fn = data_reader_var.get_image_instances(i, with_gt=True)
             
-            # print('image_fn: ', image_fn)
-            # image = Image.open(os.path.join('data/COCOA/val2014/', image_fn)).convert('RGB') # self.data_root = self.args.image_root
-            # if image.size[0] != modal.shape[2] or image.size[1] != modal.shape[1]:
-            #     image = image.resize((modal.shape[2], modal.shape[1]))
-            #     image = np.array(image)
+            print('image_fn: ', image_fn)
+            image = Image.open(os.path.join('data/COCOA/val2014/', image_fn)).convert('RGB') # self.data_root = self.args.image_root
+            if image.size[0] != modal.shape[2] or image.size[1] != modal.shape[1]:
+                image = image.resize((modal.shape[2], modal.shape[1]))
+                image = np.array(image)
             # all_images += [modal, category, bboxes, amodal_gt]
-            print('...modal: ', modal.shape)
-            print('...category: ', category.shape)
-            print('...amodal_gt: ', amodal_gt.shape)
+            
+            print('...image shape: ', image.shape)
+            print('...modal shape: ', modal.shape)
+            print('...category shape: ', category.shape)
+            print('...amodal_gt shape: ', amodal_gt.shape)
             print('...image_filename: ', image_fn)
             # self.model.set_input(*[modal, category, bboxes, amodal_gt])
+            tensor_dict_ours = {'common_tensors': [image], 'mask_tensors': [modal, category, amodal_gt]}
             
-            all_together.append(utils.visualize_tensor({'mask_tensors': [modal, category, amodal_gt]}, self.args.data.get('data_mean', [0,0,0]), self.args.data.get('data_std', [1,1,1])))
+            all_together.append(utils.visualize_tensor(tensor_dict_ours, self.args.data.get('data_mean', [0,0,0]), self.args.data.get('data_std', [1,1,1])))
              
         all_together = torch.cat(all_together, dim=2)
         grid = vutils.make_grid(all_together,
