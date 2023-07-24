@@ -330,4 +330,21 @@ class Trainer(object):
         # cv2.imwrite("{}/images/{}_exported_masks.png".format(self.args.exp_path, phase), grid.permute(1, 2, 0).numpy()*255)
 
         self.model.switch_to('train')
+        
+    # def our_forward_only(modal_vals):
+    #         with torch.no_grad():
+    #             if self.with_modal:
+    #                 output, _ = self.model(torch.cat([self.rgb, modal_vals], dim=1),
+    #                                        self.visible_mask4)
+    #             else:
+    #                 output, _ = self.model(self.rgb, self.visible_mask3)
+    #             if output.shape[2] != self.rgb.shape[2]:
+    #                 output = nn.functional.interpolate(
+    #                     output, size=self.rgb.shape[2:4],
+    #                     mode="bilinear", align_corners=True)
+    #             output_comp = self.visible_mask3 * self.rgb + (1 - self.visible_mask3) * output
+    #         ret_tensors = {'common_tensors': [self.rgb, output_comp, self.rgb_gt],
+    #                        'mask_tensors': [modal_vals, self.visible_mask3]}
+    #
+    #         return ret_tensors
     

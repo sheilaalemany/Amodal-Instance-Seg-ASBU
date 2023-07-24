@@ -59,10 +59,11 @@ class PartialCompletionMask(SingleStageModel):
             self.mask = mask.cuda()
 
     def evaluate(self, image, inmodal, category, bboxes, amodal, gt_order_matrix, input_size):
+        print('...entered evaluate function')
         order_method = self.params.get('order_method', 'ours')
         # order
         if order_method == 'ours':
-            order_matrix = infer.infer_order2(
+            order_matrix = infer.infer_order(
                 self, image, inmodal, category, bboxes,
                 use_rgb=self.use_rgb,
                 th=self.params['inference']['positive_th_order'],
