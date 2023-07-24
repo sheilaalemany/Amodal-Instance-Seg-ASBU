@@ -112,7 +112,7 @@ class Trainer(object):
         val_sampler = utils.DistributedSequentialSampler(val_dataset)
         self.val_loader = DataLoader(
             val_dataset,
-            batch_size=100, # val_loader for validation only
+            batch_size=500, # val_loader for validation only
             shuffle=False,
             num_workers=0, # before it was args.data['workers'] and was getting a dataloader runtime error
             pin_memory=False,
@@ -210,6 +210,17 @@ class Trainer(object):
 
         end = time.time()
         
+        # accessing image info
+        images_info = self.val_loader.dataset.data_reader.images_info
+        with open("batch_images_used_for_masks.json", "w") as outfile:
+            print('...how many images are we expecting to get masks for? ', len(images_info))
+            # extract the filenames for each image
+            for b in range(len(images_info)):
+                img_info = images_info[b]
+                json.dump(img_info['file_name'], outfile)
+                outfile.write('\n')
+            print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
+        
         all_together = []
         for i, inputs in enumerate(self.val_loader):
             if ('val_iter' in self.args.trainer and self.args.trainer['val_iter'] != -1 and i == self.args.trainer['val_iter']):
@@ -219,18 +230,8 @@ class Trainer(object):
 
             self.model.set_input(*inputs)
             
-            # accessing filenames
-            images_info_for_filenames = self.val_loader.dataset.data_reader.images_info
-            with open("batch_images_used_for_masks_new.json", "w") as outfile:
-                for j in range(len(images_info_for_filenames[0])): # it seems every index has the same group of images indexed
-                    img_info = images_info_for_filenames[j]
-                    json.dump(img_info['file_name'], outfile) 
-                    outfile.write('\n')
-                print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
-            
-            # we know tensor_dict has the output of the for each val_loader input
+            # tensor_dict has the output of the for each val_loader input
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
-            # print('...tensor_dict:', tensor_dict['mask_tensors'][0].shape)
 
             original_images = inputs[0]
             new_tensor_dict = {'originals': original_images}

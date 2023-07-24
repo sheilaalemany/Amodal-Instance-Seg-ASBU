@@ -6,14 +6,14 @@ def visualize_tensor(tensors_dict, mean, div):
     together = []
 
     for ct in tensors_dict['common_tensors']:
-        print('common tensor shape: ', ct.shape)
+        # print('common tensor shape: ', ct.shape)
         ct = unormalize(ct.detach().cpu(), mean, div)
         ct *= 255
         ct = torch.clamp(ct, 0, 255)
         together.append(ct)
 
     for mt in tensors_dict['mask_tensors']:
-        print('mask tensor shape: ', mt.shape)
+        # print('mask tensor shape: ', mt.shape)
         if mt.size(1) == 1:
             mt = mt.repeat(1,3,1,1)
         mt = mt.float().detach().cpu() * 255
