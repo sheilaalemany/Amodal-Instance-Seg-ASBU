@@ -221,6 +221,7 @@ class Trainer(object):
             
             # we know tensor_dict has the output of the for each val_loader input
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
+            print('...tensor_dict:', tensor_dict)
 
             original_images = inputs[0]
             new_tensor_dict = {'originals': original_images}
@@ -302,7 +303,10 @@ class Trainer(object):
             #     image = image.resize((modal.shape[2], modal.shape[1]))
             #     image = np.array(image)
             # all_images += [modal, category, bboxes, amodal_gt]
-            print('...image_fn? ', image_fn)
+            print('...modal: ', modal)
+            print('...category: ', category)
+            print('...amodal_gt: ', amodal_gt)
+            print('...image_filename: ', image_fn)
             self.model.set_input(*[modal, category, bboxes, amodal_gt])
                 
         tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
