@@ -112,7 +112,7 @@ class Trainer(object):
         val_sampler = utils.DistributedSequentialSampler(val_dataset)
         self.val_loader = DataLoader(
             val_dataset,
-            batch_size=args.data['batch_size_val'],
+            batch_size=100, # val_loader for validation only
             shuffle=False,
             num_workers=0, # before it was args.data['workers'] and was getting a dataloader runtime error
             pin_memory=False,
@@ -274,47 +274,47 @@ class Trainer(object):
 
         self.model.switch_to('train')
         
-    def export_masks(self, phase):
-        print('...entering export_masks')
-        
-        # accessing image info
-        images_info = self.val_loader.dataset.data_reader.images_info
-        with open("batch_images_used_for_masks.json", "w") as outfile:
-            print('...how many images are we expecting to get masks for? ', len(images_info))
-            # extract the filenames for each image
-            for b in range(len(images_info)):
-                img_info = images_info[b]
-                json.dump(img_info['file_name'], outfile)
-                outfile.write('\n')
-            print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
-                
-        data_reader_var = self.val_loader.dataset.data_reader
-        print('...verifying self.data_length: ', data_reader_var.get_image_length())
-        
-        all_together = []
-        
-        all_modals = []
-        all_categories = []
-        all_amodal_gts = []
-        for i in range(data_reader_var.get_image_length()):
-            modal, category, bboxes, amodal_gt, image_fn = data_reader_var.get_image_instances(i, with_gt=True)
-            
-            print('...image_fn: ', image_fn)
-            
-            image = Image.open(os.path.join('data/COCOA/val2014/', image_fn)).convert('RGB') # self.data_root = self.args.image_root
-            if image.size[0] != modal.shape[2] or image.size[1] != modal.shape[1]:
-                image = image.resize((modal.shape[2], modal.shape[1]))
-                image = np.array(image)
-                
-            modal = torch.tensor(modal)
-            amodal_gt = torch.tensor(amodal_gt)
-            category = torch.tensor(category)
-            image = torch.tensor(image)
-            
-            self.model.set_input(rgb=image, mask=modal, eraser=amodal_gt, target=category)
-            
-            tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
- 
+    # def export_masks(self, phase):
+    #     print('...entering export_masks')
+    #
+    #     # accessing image info
+    #     images_info = self.val_loader.dataset.data_reader.images_info
+    #     with open("batch_images_used_for_masks.json", "w") as outfile:
+    #         print('...how many images are we expecting to get masks for? ', len(images_info))
+    #         # extract the filenames for each image
+    #         for b in range(len(images_info)):
+    #             img_info = images_info[b]
+    #             json.dump(img_info['file_name'], outfile)
+    #             outfile.write('\n')
+    #         print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
+    #
+    #     data_reader_var = self.val_loader.dataset.data_reader
+    #     print('...verifying self.data_length: ', data_reader_var.get_image_length())
+    #
+    #     all_together = []
+    #
+    #     all_modals = []
+    #     all_categories = []
+    #     all_amodal_gts = []
+    #     for i in range(data_reader_var.get_image_length()):
+    #         modal, category, bboxes, amodal_gt, image_fn = data_reader_var.get_image_instances(i, with_gt=True)
+    #
+    #         print('...image_fn: ', image_fn)
+    #
+    #         image = Image.open(os.path.join('data/COCOA/val2014/', image_fn)).convert('RGB') # self.data_root = self.args.image_root
+    #         if image.size[0] != modal.shape[2] or image.size[1] != modal.shape[1]:
+    #             image = image.resize((modal.shape[2], modal.shape[1]))
+    #             image = np.array(image)
+    #
+    #         modal = torch.tensor(modal)
+    #         amodal_gt = torch.tensor(amodal_gt)
+    #         category = torch.tensor(category)
+    #         image = torch.tensor(image)
+    #
+    #         self.model.set_input(rgb=image, mask=modal, eraser=amodal_gt, target=category)
+    #
+    #         tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
+    #
 
         self.model.switch_to('train')
         

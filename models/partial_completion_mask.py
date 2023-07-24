@@ -37,7 +37,6 @@ class PartialCompletionMask(SingleStageModel):
                 inmask_weight=params['inmask_weight'], outmask_weight=1.)
 
     def set_input(self, rgb=None, mask=None, eraser=None, target=None):
-        print(type(eraser))
         self.eraser_boundary = eraser[:, :1].cuda()
         self.eraser = eraser[:, 1:2].cuda()
         # self.modal_boundary = eraser[:, 2:3].cuda()
