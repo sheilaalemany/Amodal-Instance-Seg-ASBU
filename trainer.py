@@ -291,7 +291,7 @@ class Trainer(object):
         data_reader_var = self.val_loader.dataset.data_reader
         print('...verifying self.data_length: ', data_reader_var.get_image_length())
         
-        all_images = []
+        all_together = []
         
         all_modals = []
         all_categories = []
