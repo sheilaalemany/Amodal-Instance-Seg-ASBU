@@ -305,7 +305,7 @@ class Trainer(object):
                 image = image.resize((modal.shape[2], modal.shape[1]))
                 image = np.array(image)
                 
-            self.model.set_input([image, modal, category, bboxes, amodal_gt])
+            self.model.set_input(rgb=None, mask=modal, eraser=amodal_gt, target=category)
             
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
  
