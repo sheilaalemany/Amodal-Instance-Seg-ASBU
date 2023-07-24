@@ -299,12 +299,16 @@ class Trainer(object):
         for i in range(data_reader_var.get_image_length()):
             modal, category, bboxes, amodal_gt, image_fn = data_reader_var.get_image_instances(i, with_gt=True)
             
-            print('...image_fn: ', image_fn)
-            image = Image.open(os.path.join('data/COCOA/val2014/', image_fn)).convert('RGB') # self.data_root = self.args.image_root
-            if image.size[0] != modal.shape[2] or image.size[1] != modal.shape[1]:
-                image = image.resize((modal.shape[2], modal.shape[1]))
-                image = np.array(image)
+            # print('...image_fn: ', image_fn)
+            # image = Image.open(os.path.join('data/COCOA/val2014/', image_fn)).convert('RGB') # self.data_root = self.args.image_root
+            # if image.size[0] != modal.shape[2] or image.size[1] != modal.shape[1]:
+            #     image = image.resize((modal.shape[2], modal.shape[1]))
+            #     image = np.array(image)
                 
+            modal = torch.tensor(modal)
+            amodal_gt = torch.tensor(amodal_gt)
+            category = torch.tensor(category)
+            
             self.model.set_input(rgb=None, mask=modal, eraser=amodal_gt, target=category)
             
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
