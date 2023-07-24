@@ -219,6 +219,15 @@ class Trainer(object):
 
             self.model.set_input(*inputs)
             
+            # accessing filenames
+            images_info_for_filenames = self.val_loader.dataset.data_reader.images_info
+            with open("batch_images_used_for_masks_new.json", "w") as outfile:
+                for j in range(len(images_info_for_filenames[0])): # it seems every index has the same group of images indexed
+                    img_info = images_info_for_filenames[j]
+                    json.dump(img_info['file_name'], outfile) 
+                    outfile.write('\n')
+                print('...image filenames of the batch corresponding to masks saved in file batch_images_used_for_masks.json')
+            
             # we know tensor_dict has the output of the for each val_loader input
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
             # print('...tensor_dict:', tensor_dict['mask_tensors'][0].shape)
