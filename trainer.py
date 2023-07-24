@@ -301,9 +301,9 @@ class Trainer(object):
             # if image.size[0] != modal.shape[2] or image.size[1] != modal.shape[1]:
             #     image = image.resize((modal.shape[2], modal.shape[1]))
             #     image = np.array(image)
-            all_images += [modal, category, bboxes, amodal_gt]
-        
-        self.model.set_input(*all_images)
+            # all_images += [modal, category, bboxes, amodal_gt]
+            print('...image_fn? ', image_fn)
+            self.model.set_input(*[modal, category, bboxes, amodal_gt])
                 
         tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
         print('did we get it? ', len(tensor_dict))
