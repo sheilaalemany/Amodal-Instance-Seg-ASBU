@@ -113,7 +113,7 @@ class Trainer(object):
         self.val_loader = DataLoader(
             val_dataset,
             batch_size=args.data['batch_size_val'],
-            shuffle=False,
+            shuffle=True,
             num_workers=0, # before it was args.data['workers'] and was getting a dataloader runtime error
             pin_memory=False,
             sampler=val_sampler)
@@ -125,7 +125,7 @@ class Trainer(object):
         # offline validate function is called 
         if self.args.validate:
             self.validate('off_val')
-            self.export_masks('off_val') # here we probably want to also run a function to print out all the data?
+            # self.export_masks('off_val') # here we probably want to also run a function to print out all the data?
             return
 
         if self.args.trainer['initial_val']:
@@ -221,7 +221,7 @@ class Trainer(object):
             
             # we know tensor_dict has the output of the for each val_loader input
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
-            print('...tensor_dict:', tensor_dict['mask_tensors'][0].shape)
+            # print('...tensor_dict:', tensor_dict['mask_tensors'][0].shape)
 
             original_images = inputs[0]
             new_tensor_dict = {'originals': original_images}
