@@ -113,7 +113,7 @@ class Trainer(object):
         self.val_loader = DataLoader(
             val_dataset,
             batch_size=args.data['batch_size_val'],
-            shuffle=True,
+            shuffle=False,
             num_workers=0, # before it was args.data['workers'] and was getting a dataloader runtime error
             pin_memory=False,
             sampler=val_sampler)
