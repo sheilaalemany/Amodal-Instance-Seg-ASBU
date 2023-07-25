@@ -85,7 +85,7 @@ class PartialCompDataset(Dataset):
                     return Image.open(fn.replace('val2017', 'train2017')).convert('RGB')
                 except: 
                     print(fn+' image not found in folder')
-                    pass 
+                    return Image.open('/aul/homes/byang010/attacking-amodal/COCOA/s_val2014/animal/COCO_val2014_000000000042.jpg').convert('RGB')
 
     def _get_inst(self, idx, load_rgb=False, randshift=False):
         modal, bbox, category, imgfn, _ = self.data_reader.get_instance(idx)
