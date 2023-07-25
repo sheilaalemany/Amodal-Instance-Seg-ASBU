@@ -227,14 +227,16 @@ class Trainer(object):
 
             dtime_rec.update(time.time() - end)
 
+            print('...inputs.data_reader.images_info', len(inputs.data_reader.images_info))
+            print('...one of them', inputs.data_reader.images_info[0:4])
             self.model.set_input(*inputs)
             
             # tensor_dict has the output of the for each val_loader input
             tensor_dict, loss_dict = self.model.forward_only(val=phase=='off_val')
 
-            original_images = inputs[0]
-            new_tensor_dict = {'originals': original_images}
-            tensor_dict.update(new_tensor_dict)
+            # original_images = inputs[0]
+            # new_tensor_dict = {'originals': original_images}
+            # tensor_dict.update(new_tensor_dict)
             
             for k in loss_dict.keys():
                 recorder[k].update(utils.reduce_tensors(loss_dict[k]).item())
