@@ -226,9 +226,13 @@ class Trainer(object):
                 break
 
             dtime_rec.update(time.time() - end)
-
-            print('...inputs.data_reader.images_info', len(inputs.data_reader.images_info))
-            print('...one of them', inputs.data_reader.images_info[0:4])
+            
+            print('...input lengths: ', len(inputs))
+            print('...input[0] lengths: ', len(inputs[0]))
+            print('...type in inputs:', type(inputs[0]))
+            
+            # print('...inputs.data_reader.images_info', len(inputs.data_reader.images_info))
+            # print('...one of them', inputs.data_reader.images_info[0:4])
             self.model.set_input(*inputs)
             
             # tensor_dict has the output of the for each val_loader input
