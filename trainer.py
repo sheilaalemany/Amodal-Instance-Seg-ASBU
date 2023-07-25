@@ -112,7 +112,7 @@ class Trainer(object):
         val_sampler = utils.DistributedSequentialSampler(val_dataset)
         self.val_loader = DataLoader(
             val_dataset,
-            batch_size=1323, # val_loader for validation only
+            batch_size=1000, # val_loader for validation only
             shuffle=False,
             num_workers=0, # before it was args.data['workers'] and was getting a dataloader runtime error
             pin_memory=False,
