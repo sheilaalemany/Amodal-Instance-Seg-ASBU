@@ -227,9 +227,9 @@ class Trainer(object):
 
             dtime_rec.update(time.time() - end)
             
-            print('...input lengths: ', len(inputs))
-            print('...input[0] lengths: ', len(inputs[0]))
-            print('...type in inputs:', type(inputs[0]))
+            # inputs is a list of length 4
+            # inputs[0] has a length of size batch_size set for val_loader (right now 1000)
+            print('types in inputs: ', type(inputs[0]), type(inputs[1]), type(inputs[2]), type(inputs[3]))
             
             # print('...inputs.data_reader.images_info', len(inputs.data_reader.images_info))
             # print('...one of them', inputs.data_reader.images_info[0:4])
@@ -248,6 +248,7 @@ class Trainer(object):
             end = time.time()
 
             # tb visualize
+            
             if self.rank == 0:
                 disp_start = max(self.args.trainer['val_disp_start_iter'], 0)
                 disp_end = min(self.args.trainer['val_disp_end_iter'], len(self.val_loader))
@@ -257,7 +258,7 @@ class Trainer(object):
                 if (i == disp_end - 1 and disp_end > disp_start):
                     all_together = torch.cat(all_together, dim=2)
                     # so it seems all_together has a column of mask/boundary images, we want to get the column of original images (added)
-                    
+                    # this only once in this for-loop
                     grid = vutils.make_grid(all_together,
                                             nrow=1,
                                             normalize=True,
