@@ -216,7 +216,7 @@ class Trainer(object):
         images_info = self.val_loader.dataset.data_reader.images_info
         with open("batch_images_used_for_masks.json", "w") as outfile:
             print('...how many images are we expecting to get masks for? ', len(images_info))
-            extract the filenames for each image
+            # extract the filenames for each image
             for b in range(len(images_info)):
                 img_info = images_info[b]
                 json.dump(img_info['file_name'], outfile)
