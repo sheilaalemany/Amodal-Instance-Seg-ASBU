@@ -109,8 +109,8 @@ class Trainer(object):
                                            sampler=train_sampler)
 
         # args.data.val_image_root = 'data/COCOA/val2014' # originally
+        args.data['val_image_root'] = '/aul/homes/byang010/attacking-amodal/COCOA/s_val2014/animals'
         print(args.data)
-        args.data = {'val_image_root': '/aul/homes/byang010/attacking-amodal/COCOA/s_val2014/animals'}
         
         val_dataset = trainval_class(args.data, 'val')
         val_sampler = utils.DistributedSequentialSampler(val_dataset)
