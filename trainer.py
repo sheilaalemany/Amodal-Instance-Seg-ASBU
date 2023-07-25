@@ -108,12 +108,14 @@ class Trainer(object):
                                            pin_memory=False,
                                            sampler=train_sampler)
 
-        print("args.data: ", args.data)
+        # args.data.val_image_root = 'data/COCOA/val2014' # originally
+        args.data.val_image_root = '/aul/homes/byang010/attacking-amodal/COCOA/s_val2014/animals'
+        
         val_dataset = trainval_class(args.data, 'val')
         val_sampler = utils.DistributedSequentialSampler(val_dataset)
         self.val_loader = DataLoader(
             val_dataset,
-            batch_size=1000, # val_loader for validation only
+            batch_size=32, # val_loader for validation only
             shuffle=False,
             num_workers=0, # before it was args.data['workers'] and was getting a dataloader runtime error
             pin_memory=False,
@@ -214,7 +216,7 @@ class Trainer(object):
         images_info = self.val_loader.dataset.data_reader.images_info
         with open("batch_images_used_for_masks.json", "w") as outfile:
             print('...how many images are we expecting to get masks for? ', len(images_info))
-            # extract the filenames for each image
+            extract the filenames for each image
             for b in range(len(images_info)):
                 img_info = images_info[b]
                 json.dump(img_info['file_name'], outfile)
@@ -251,26 +253,29 @@ class Trainer(object):
 
             # tb visualize
             
-            if self.rank == 0:
-                disp_start = max(self.args.trainer['val_disp_start_iter'], 0)
-                disp_end = min(self.args.trainer['val_disp_end_iter'], len(self.val_loader))
-                if (i >= disp_start and i < disp_end):
-                    all_together.append(utils.visualize_tensor(tensor_dict, self.args.data.get('data_mean', [0,0,0]), self.args.data.get('data_std', [1,1,1])))
-                 
-                if (i == disp_end - 1 and disp_end > disp_start):
-                    all_together = torch.cat(all_together, dim=2)
-                    # so it seems all_together has a column of mask/boundary images, we want to get the column of original images (added)
-                    # this only once in this for-loop
-                    grid = vutils.make_grid(all_together,
-                                            nrow=1,
-                                            normalize=True,
-                                            range=(0, 255),
-                                            scale_each=False)
-                    print('...grid shape from validate: ', grid.shape) # grid shape is the same as all_together shape
-                    
-                    if self.tb_logger is not None:
-                        self.tb_logger.add_image('Image_' + phase, grid, self.curr_step)
-                    cv2.imwrite("{}/images/{}_{}.png".format(self.args.exp_path, phase, self.curr_step), grid.permute(1, 2, 0).numpy()*255)
+            # if self.rank == 0:
+            # what if i try to run this for every batch
+            disp_start = max(self.args.trainer['val_disp_start_iter'], 0)
+            disp_end = min(self.args.trainer['val_disp_end_iter'], len(self.val_loader))
+            print('...disp_start, disp_end: ', disp_start, disp_end)
+            
+            if (i >= disp_start and i < disp_end):
+                all_together.append(utils.visualize_tensor(tensor_dict, self.args.data.get('data_mean', [0,0,0]), self.args.data.get('data_std', [1,1,1])))
+             
+            if (i == disp_end - 1 and disp_end > disp_start):
+                all_together = torch.cat(all_together, dim=2)
+                # so it seems all_together has a column of mask/boundary images, we want to get the column of original images (added)
+                # this only once in this for-loop
+                grid = vutils.make_grid(all_together,
+                                        nrow=1,
+                                        normalize=True,
+                                        range=(0, 255),
+                                        scale_each=False)
+                print('...grid shape from validate: ', grid.shape) # grid shape is the same as all_together shape
+                
+                if self.tb_logger is not None:
+                    self.tb_logger.add_image('Image_' + phase, grid, self.curr_step)
+                cv2.imwrite("{}/images/{}_{}_{}.png".format(self.args.exp_path, phase, self.curr_step, i), grid.permute(1, 2, 0).numpy()*255)
 
         # logging
         if self.rank == 0:
