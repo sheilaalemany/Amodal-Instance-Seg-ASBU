@@ -108,6 +108,7 @@ class Trainer(object):
                                            pin_memory=False,
                                            sampler=train_sampler)
 
+        print("args.data: ", args.data)
         val_dataset = trainval_class(args.data, 'val')
         val_sampler = utils.DistributedSequentialSampler(val_dataset)
         self.val_loader = DataLoader(
@@ -229,7 +230,8 @@ class Trainer(object):
             
             # inputs is a list of length 4
             # inputs[0] has a length of size batch_size set for val_loader (right now 1000)
-            print('types in inputs: ', type(inputs[0]), type(inputs[1]), type(inputs[2]), type(inputs[3]))
+            # types in inputs: <class 'torch.Tensor'> <class 'torch.Tensor'> <class 'torch.Tensor'> <class 'torch.Tensor'>
+            # print('types in inputs: ', type(inputs[0]), type(inputs[1]), type(inputs[2]), type(inputs[3]))
             
             # print('...inputs.data_reader.images_info', len(inputs.data_reader.images_info))
             # print('...one of them', inputs.data_reader.images_info[0:4])
