@@ -82,8 +82,10 @@ class PartialCompDataset(Dataset):
                 return Image.open(fn).convert('RGB')
             except: 
                 try: 
+                    print('opening: ', fn.replace('val2017', 'train2017'))
                     return Image.open(fn.replace('val2017', 'train2017')).convert('RGB')
                 except: 
+                    # pass
                     print(fn+' image not found in folder')
                     return Image.open('/aul/homes/byang010/attacking-amodal/COCOA/s_val2014/animal/COCO_val2014_000000000042.jpg').convert('RGB')
 
