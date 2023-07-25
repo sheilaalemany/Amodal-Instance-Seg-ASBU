@@ -258,7 +258,7 @@ class Trainer(object):
             # what if i try to run this for every batch
             disp_start = max(self.args.trainer['val_disp_start_iter'], 0)
             disp_end = min(self.args.trainer['val_disp_end_iter'], len(self.val_loader))
-            print('...disp_start, disp_end: ', disp_start, disp_end)
+            print('...i, disp_start, disp_end: ', i, disp_start, disp_end)
             
             if (i >= disp_start and i < disp_end):
                 all_together.append(utils.visualize_tensor(tensor_dict, self.args.data.get('data_mean', [0,0,0]), self.args.data.get('data_std', [1,1,1])))
