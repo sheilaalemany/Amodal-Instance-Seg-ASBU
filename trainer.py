@@ -82,6 +82,10 @@ class Trainer(object):
 
         self.curr_step = self.start_iter
 
+        # args.data.val_image_root = 'data/COCOA/val2014' # originally
+        args.data['val_image_root'] = '/aul/homes/byang010/attacking-amodal/COCOA/s_val2014/animal'
+        print(args.data)
+        
         # lr scheduler & datasets
         trainval_class = datasets.__dict__[args.data['trainval_dataset']]
 
@@ -107,10 +111,6 @@ class Trainer(object):
                                            num_workers=0, # before it was args.data['workers'] and was getting a dataloader runtime error
                                            pin_memory=False,
                                            sampler=train_sampler)
-
-        # args.data.val_image_root = 'data/COCOA/val2014' # originally
-        args.data['val_image_root'] = '/aul/homes/byang010/attacking-amodal/COCOA/s_val2014/animal'
-        print(args.data)
         
         val_dataset = trainval_class(args.data, 'val')
         val_sampler = utils.DistributedSequentialSampler(val_dataset)
