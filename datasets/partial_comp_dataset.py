@@ -87,9 +87,10 @@ class PartialCompDataset(Dataset):
                 except: 
                     # pass
                     print(fn+' image not found in folder')
-                    return Image.open('/aul/homes/byang010/attacking-amodal/COCOA/s_val2014/animal/COCO_val2014_000000000042.jpg').convert('RGB')
+                    # return Image.open('/aul/homes/byang010/attacking-amodal/COCOA/s_val2014/animal/COCO_val2014_000000000042.jpg').convert('RGB')
 
     def _get_inst(self, idx, load_rgb=False, randshift=False):
+        print('idx: ', idx)
         modal, bbox, category, imgfn, _ = self.data_reader.get_instance(idx)
         centerx = bbox[0] + bbox[2] / 2.
         centery = bbox[1] + bbox[3] / 2.
@@ -118,7 +119,7 @@ class PartialCompDataset(Dataset):
             flip = False
 
         if load_rgb:
-            print('about to load image from: ', self.phase, imgfn)
+            print('about to load image: ', imgfn)
             rgb = np.array(self._load_image(os.path.join(
                 self.config['{}_image_root'.format(self.phase)], imgfn))) # uint8
             rgb = cv2.resize(utils.crop_padding(rgb, new_bbox, pad_value=(0,0,0)),
